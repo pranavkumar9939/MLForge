@@ -1,14 +1,23 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
+from app.api.routes import router
 
 app = FastAPI(
-    title="MLForge API",
-    description="Backend API for MLForge",
-    version="1.0.0"
+    title = "MLForge API",
+    version = "1.0.0"
 )
 
+origins = [
+    "http://localhost:5173"
+]
 
-@app.get("/")
-def root():
-    return {
-        "message": "Welcome to MLForge 🚀"
-    }
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+app.include_router(router)
