@@ -20,4 +20,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Uploading datasets
+
+from app.api.upload import router as upload_router
+
 app.include_router(router)
+app.include_router(upload_router)
