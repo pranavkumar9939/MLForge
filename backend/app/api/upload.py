@@ -2,7 +2,7 @@ from fastapi import APIRouter, UploadFile, File
 from pathlib import Path
 import shutil
 
-from app.services.dataset_services import analyze_dataset
+from app.services.dataset_service import analyze_dataset
 
 router = APIRouter(prefix="/upload", tags=["Upload"])
 
