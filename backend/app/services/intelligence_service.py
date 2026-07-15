@@ -1,6 +1,8 @@
 import pandas as pd
 
-from app.services.intelligence.datatype_detector import detect_column_types
+from app.services.intelligence.datatype_detector import detect_column_type
+from app.services.intelligence.quality_checker import analyze_quality
+
 
 # def analyze_column_types(df):
 
@@ -75,6 +77,9 @@ def analyze_columns(df):
     """
 
     analysis = {}
+    print(df.columns.tolist())
+    quality = analyze_quality(df)
+    print(quality.keys())
 
     for column in df.columns:
 
@@ -82,9 +87,9 @@ def analyze_columns(df):
 
         analysis[column] = {
             "dtype": str(series.dtype),
-            "types": detect_column_types(series),
-            "missing": int(series.isnull().sum()),
-            "unique": int(series.nunique())
+            "types": detect_column_type(series),
+
+            **quality[column]
         }
 
     return analysis

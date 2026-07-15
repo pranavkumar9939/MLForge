@@ -1,6 +1,6 @@
 import pandas as pd
 
-def detect_column_types(series):
+def detect_column_type(series):
     """
     Detect the logical type of a pandas Series.
     """
