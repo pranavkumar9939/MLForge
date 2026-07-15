@@ -1,5 +1,7 @@
 import pandas as pd
 
+from app.services.intelligence.datatype_detector import detect_column_types
+
 # def analyze_column_types(df):
 
 #     """
@@ -80,7 +82,7 @@ def analyze_columns(df):
 
         analysis[column] = {
             "dtype": str(series.dtype),
-            "types": get_column_types(series),
+            "types": detect_column_types(series),
             "missing": int(series.isnull().sum()),
             "unique": int(series.nunique())
         }
