@@ -2,7 +2,7 @@ import pandas as pd
 
 from app.services.intelligence.datatype_detector import detect_column_type
 from app.services.intelligence.quality_checker import analyze_quality
-
+from app.services.intelligence.recommendation_engine import generate_recommendations
 
 # def analyze_column_types(df):
 
@@ -77,19 +77,23 @@ def analyze_columns(df):
     """
 
     analysis = {}
-    print(df.columns.tolist())
+    #print(df.columns.tolist())
     quality = analyze_quality(df)
-    print(quality.keys())
+    #print(quality.keys())
 
     for column in df.columns:
 
         series = df[column]
 
-        analysis[column] = {
+        column_info = {
             "dtype": str(series.dtype),
-            "types": detect_column_type(series),
+            "type": detect_column_type(series),
 
             **quality[column]
         }
+
+        column_info["recommendations"] = generate_recommendations(column_info)
+
+        analysis[column] = column_info
 
     return analysis
