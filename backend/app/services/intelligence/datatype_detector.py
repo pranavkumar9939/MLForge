@@ -1,5 +1,7 @@
 import pandas as pd
 
+from app.services.intelligence.datetime_detector import is_datetime_column
+
 def detect_column_type(series):
     """
     Detect the logical type of a pandas Series.
@@ -11,17 +13,7 @@ def detect_column_type(series):
     if pd.api.types.is_numeric_dtype(series):
         return "Numerical"
 
-    # Converting object column to datetime
-
-    if series.dtype == "object":
-        try:
-            pd.to_datetime(series.dropna(), errors="raise")
-            return "Datetime"
-
-        except Exception:
-            pass
-
-    if pd.api.types.is_datetime64_any_dtype(series):
+    if is_datetime_column(series):
         return "Datetime"
 
     return "Categorical"
