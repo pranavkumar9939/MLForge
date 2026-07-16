@@ -27,11 +27,33 @@ def detect_target_column(df):
     return df.columns[-1]
 
 def detect_problem_type(df, target_column):
+    """
+    Detect the machine learning problem type.
+    """
 
-    unique_values = df[target_column].nunique()
+    target = df[target_column]
 
-    if unique_values <= 20:
-        return "Classification"
+    unique_values = target.nunique()
 
-    return "Regression"
+    # Numerical target
+    if pd.api.types.is_numeric_dtype(target):
+
+        # Regression
+        if unique_values > 20:
+            return "Regression"
+
+        # Binary Classification
+        elif unique_values == 2:
+            return "Binary Classification"
+
+        # Multi-Class Classification
+        else:
+            return "Multi-Class Classification"
+
+    # Non-numerical target
+
+    if unique_values == 2:
+        return "Binary Classification"
+
+    return "Multi-Class Classification"
 

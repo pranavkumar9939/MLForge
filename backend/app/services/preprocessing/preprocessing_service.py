@@ -41,15 +41,22 @@ def preprocess_dataset(df, analysis):
 
     X_processed = pipeline.fit_transform(X)
 
+    print(type(X_processed))
+    print(X_processed.shape)
+    print(len(pipeline.get_feature_names_out()))
+    print("Numerical:", numerical_columns)
+    print("Categorical:", categorical_columns)
+    processed_df = pd.DataFrame.sparse.from_spmatrix(
+            X_processed,
+            columns=pipeline.get_feature_names_out()
+    )
+
     return {
         "X": X_processed,
         "y": y,
         "pipeline": pipeline,
         "feature_names": pipeline.get_feature_names_out(),
-        "preprocessed_dataframe": pd.DataFrame(
-            X_processed,
-            columns=pipeline.get_feature_names_out()
-        ),
+        "preprocessed_dataframe": processed_df,
         "summary": {
             "target_column": target_column,
             "numerical_columns": numerical_columns,
