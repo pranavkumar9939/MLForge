@@ -7,6 +7,8 @@ from sklearn.metrics import (
     classification_report
 )
 
+from app.services.evaluation.performance_interpreter import interpret_score
+
 def evaluate_model(training_result):
     """
     Evaluate the trained machine learning model.
@@ -53,19 +55,39 @@ def evaluate_model(training_result):
             output_dict=True
         )
 
+        accuracy_info = interpret_score(
+            accuracy,
+            "Accuracy"
+        )
+
+        precision_info = interpret_score(
+            precision,
+            "Precision"
+        )
+
+        recall_info = interpret_score(
+            recall,
+            "recall"
+        )
+
+        f1_info = interpret_score(
+            f1,
+            "F1 Score"
+        )
+
         return {
 
             "model_name": model_name,
 
             "problem_type": problem_type,
 
-            "accuracy": round(accuracy,4),
+            "accuracy": accuracy_info,
 
-            "precision": round(precision,4),
+            "precision": precision_info,
 
-            "recall": round(recall,4),
+            "recall": recall_info,
 
-            "f1_score": round(f1,4),
+            "f1_score": f1_info,
 
             "confusion_matrix": cm.tolist(),
 
