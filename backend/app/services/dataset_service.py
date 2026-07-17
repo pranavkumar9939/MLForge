@@ -7,12 +7,12 @@ from app.services.problem_detector import (
 )
 
 
-def analyze_dataset(file_path):
+def analyze_dataset(df):
     """
         Reads a csv file and returns basic dataset statics.
     """
 
-    df = pd.read_csv(file_path)
+    df = df
 
     print("\n===== COLUMN DATA TYPES =====")
 

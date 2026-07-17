@@ -1,4 +1,5 @@
 import pandas as pd
+from scipy import sparse
 
 # from app.services.preprocessing.column_selector import get_column_groups
 from app.services.preprocessing.pipeline_builder import build_preprocessing_pipeline
@@ -46,10 +47,19 @@ def preprocess_dataset(df, analysis):
     print(len(pipeline.get_feature_names_out()))
     print("Numerical:", numerical_columns)
     print("Categorical:", categorical_columns)
-    processed_df = pd.DataFrame.sparse.from_spmatrix(
+    if sparse.issparse(X_processed):
+
+        processed_df = pd.DataFrame.sparse.from_spmatrix(
             X_processed,
             columns=pipeline.get_feature_names_out()
-    )
+        )
+
+    else:
+
+        processed_df = pd.DataFrame(
+            X_processed,
+            columns=pipeline.get_feature_names_out()
+        )
 
     return {
         "X": X_processed,

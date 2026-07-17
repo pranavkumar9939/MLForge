@@ -24,13 +24,18 @@ async def upload_dataset(file: UploadFile = File(...)):
 
     file_path = UPLOAD_FOLDER / file.filename
 
-    df = pd.read_csv(file_path)
-
     with open(file_path, "wb") as buffer:
-
         shutil.copyfileobj(file.file, buffer)
 
-    analysis = analyze_dataset(file_path)
+    print("File Exists:",file_path.exists())
+    print("File size:", file_path.stat().st_size)
+
+    df = pd.read_csv(file_path)
+
+    print(df.shape)
+    print(df.head())
+
+    analysis = analyze_dataset(df)
 
     preprocessing_result = preprocess_dataset(
         df,
