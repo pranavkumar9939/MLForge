@@ -8,6 +8,8 @@ from sklearn.metrics import (
 )
 
 from app.services.evaluation.performance_interpreter import interpret_score
+from app.services.evaluation.overall_assessment import generate_overall_assessment
+
 
 def evaluate_model(training_result):
     """
@@ -75,7 +77,7 @@ def evaluate_model(training_result):
             "F1 Score"
         )
 
-        return {
+        evaluation_result = {
 
             "model_name": model_name,
 
@@ -98,6 +100,10 @@ def evaluate_model(training_result):
                 "correct_predictions": int((predictions == y_test).sum())
             }
         }
+
+        evaluation_result["overall_assessment"] = generate_overall_assessment(evaluation_result)
+
+        return evaluation_result
 
     raise ValueError(
         f"Evaluation for'{problem_type}' is not implemented."
