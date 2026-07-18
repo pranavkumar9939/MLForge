@@ -4,12 +4,17 @@ from sklearn.metrics import (
     recall_score,
     f1_score,
     confusion_matrix,
-    classification_report
+    classification_report,
+
+    mean_absolute_error,
+    mean_squared_error,
+    r2_score,
+    root_mean_squared_error
 )
 
-from app.services.evaluation.performance_interpreter import interpret_score
-from app.services.evaluation.overall_assessment import generate_overall_assessment
-from app.services.evaluation.improvement_engine import generate_improvement_suggestions
+from app.services.evaluation.performance_interpreter import interpret_score, interpret_r2_score
+from app.services.evaluation.overall_assessment import generate_overall_assessment, generate_regression_assesment
+from app.services.evaluation.improvement_engine import generate_improvement_suggestions, generate_regression_improvement_suggestions
 
 
 def evaluate_model(training_result):
@@ -23,7 +28,8 @@ def evaluate_model(training_result):
     problem_type = training_result["problem_type"]
 
     EVALUATORS = {
-        "Binary Classification": evaluate_binary_classification
+        "Binary Classification": evaluate_binary_classification,
+        "Regression": evaluate_linear_regression
     }
 
     evaluator = EVALUATORS.get(problem_type)
@@ -128,3 +134,61 @@ def evaluate_binary_classification(training_result):
     evaluation_result["improvement_suggestions"] = generate_improvement_suggestions(evaluation_result)
 
     return evaluation_result
+
+
+def evaluate_linear_regression(training_result):
+
+    y_test = training_result["y_test"]
+    predictions = training_result["predictions"]
+    model_name = training_result["model_name"]
+    problem_type = training_result["problem_type"]
+
+    mse = mean_squared_error(
+        y_test,
+        predictions
+    )
+
+    mae = mean_absolute_error(
+        y_test,
+        predictions
+    )
+
+    rmse = root_mean_squared_error(
+        y_test,
+        predictions
+    )
+
+    r2 = r2_score(
+        y_test,
+        predictions
+    )
+
+    print("MAE : ",mae)
+    print("MSE : ",mse)
+    print("RMSE : ",rmse)
+    print("R2 : ",r2)
+
+    r2_info = interpret_r2_score(r2)
+
+    evaluation_result = {
+        "model_name": model_name,
+
+        "problem_type": problem_type,
+
+        "mae": round(mae, 4),
+
+        "mse": round(mse, 4),
+
+        "rmse": round(rmse, 4),
+
+        "r2_score": round(r2, 4),
+
+        "r2_info": r2_info
+    }
+
+    evaluation_result["overall_assessment"] = generate_regression_assesment(evaluation_result)
+
+    evaluation_result["improvement_suggestions"] = generate_regression_improvement_suggestions(evaluation_result)
+
+    return evaluation_result
+

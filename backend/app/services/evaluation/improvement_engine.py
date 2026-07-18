@@ -162,3 +162,91 @@ def generate_improvement_suggestions(results):
         })
 
     return suggestions
+
+
+
+
+def generate_regression_improvement_suggestions(results):
+    """
+    Generate intelligent suggestions for regression models.
+    """
+
+    suggestions = []
+
+    r2 = results["r2_score"]
+    mae = results["mae"]
+    rmse = results["rmse"]
+
+    # Excellent model
+    if r2 >= 0.90:
+
+        suggestions.append({
+            "type": "Performance",
+            "title": "Excellent Regression Model",
+            "message": (
+                "The model explains most of the variance in the target variable "
+                "and is suitable for prediction after validation on unseen data."
+            )
+        })
+
+    # Good model
+    elif r2 >= 0.80:
+
+        suggestions.append({
+            "type": "Performance",
+            "title": "Good Model Performance",
+            "message": {
+                "The model predicts the target variaable well, "
+                "although further optimization improve accuracy."
+            }
+        })
+
+    # Fair model
+    elif r2 >= 0.70:
+
+        suggestions.append({
+            "type": "Warning",
+            "title": "Moderate Predictive Power",
+            "message": (
+                "The model covers the general trend nut still leaves "
+                "significant unexplained variation."
+            )
+        })
+
+    # needs imprvement
+    else:
+
+        suggestions.append({
+            "type": "Warning",
+            "title": "Model Needs Improvement",
+            "message": (
+                "The regression model has limited predictive capability. "
+                "Feature engineering or a different algoruthm is recommended."
+            )
+        })
+
+    # High prediction error
+    if rmse > mae * 1.5:
+
+        suggestions.append({
+            "type": "Insight",
+            "title": "Large Predicton Errors Detected",
+            "message": (
+                "RMSE is significantly higher than MAE, suggesting that "
+                "some predictions contain large error (otliers)."
+            )
+        })
+
+    # General recommendation
+
+    suggestions.append({
+        "type": "Recommendation",
+        "title": "Compare Multiple Algorithms",
+        "message": (
+            "Compare Linear Regression with random Forest Regressor, "
+            "Gradient Boosting, XGBoost, or CatBoost to determine whether "
+            "a better-performing model exists."
+        )
+    })
+
+    return suggestions

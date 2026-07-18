@@ -1,4 +1,5 @@
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LogisticRegression, LinearRegression
+
 
 MODEL_REGISTRY = {
     "Binary Classification": {
@@ -16,6 +17,25 @@ MODEL_REGISTRY = {
         
         "Limitations": [
          "cannot model complex nonlinear relationships"
+        ]
+    },
+
+    "Regression": {
+        "name": "Linear Regression",
+                
+        "model": LinearRegression(),
+                
+        "type": "Linear Model",
+                
+        "reason": (
+            "Linear regression is chosen when predicting continuous numerical values (e.g., house prices) because it is simple, "
+            "fast, and highly interpretable. "
+            "It acts as an excellent baseline model due to its transparency and computational efficiency."
+        ),
+                
+        "Limitations": [
+            " its main limitation is its inability to capture complex, non-linear relationships. "
+            "It fails when data does not fit a straight-line pattern."
         ]
     }
 }
