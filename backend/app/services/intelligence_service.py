@@ -92,6 +92,8 @@ def analyze_columns(df):
             **quality[column]
         }
 
+        print(column, column_info["is_identifier"])
+
         column_info["recommendations"] = generate_recommendations(column_info)
 
         analysis[column] = column_info

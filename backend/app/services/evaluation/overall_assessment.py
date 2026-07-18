@@ -41,7 +41,7 @@ def generate_overall_assessment(results):
         recommendation = "Do some feature engineering along with data analysis and improve data quality and then retest it."
 
     return {
-        "overall_score": average_score,
+        "overall_score": round(average_score, 2),
         "status": status,
         "summary": summary,
         "recommendation": recommendation

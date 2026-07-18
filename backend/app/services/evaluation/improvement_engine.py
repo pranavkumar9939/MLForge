@@ -250,3 +250,190 @@ def generate_regression_improvement_suggestions(results):
     })
 
     return suggestions
+
+
+
+def generate_classification_improvement_suggestions(results):
+
+    suggestions = []
+
+    accuracy = results["accuracy"]["value"]
+    precision = results["precision"]["value"]
+    recall = results["recall"]["value"]
+    f1 = results["f1_score"]["value"]
+
+    if accuracy >= 99:
+
+        suggestions.append({
+        "type":"Recommendation",
+        "priority":"Medium",
+        "title":"Check for Overfitting",
+        "message":"The model achieved nearly perfect accuracy. Verify the result using cross-validation or an independent test dataset to ensure the model generalizes well."
+    })
+
+    elif accuracy >= 95:
+
+        suggestions.append({
+
+            "type": "Performance",
+            "priority": "Low",
+
+            "title": "Excellent Model Performance",
+
+            "message": (
+                "The model achieved excellent accuracy "
+                "and is suitable for prediction after "
+                "validation on unseen data."
+            )
+        })
+
+    elif accuracy >= 80:
+
+        suggestions.append({
+
+            "type": "Performance",
+            "priority": "Medium",
+
+            "title": "Good Model Performance",
+
+            "message": (
+                "The model performs well and produces reliable predictions. "
+                "Further improvements through feature engineering or "
+                "hyperparameter tuning may increase performance."
+            )
+        })
+
+    elif accuracy >= 70:
+
+        suggestions.append({
+
+            "type": "Performance",
+            "priority": "High",
+
+            "title": "Fair Model Performance",
+
+            "message": (
+                "The model demonstrates acceptable predictive performance "
+                "but still has room for the improvement before deployment."
+            )
+    })
+
+    else:
+
+        suggestions.append({
+
+            "type": "Performance",
+            "priority": "High",
+
+            "title": "Poor Model Performance",
+
+            "message": (
+                "The model performance is low and requires significant "
+                "improvements before it can be considered reliable."
+            )
+        })
+
+
+    difference = abs(precision - recall)
+
+    if difference <= 3:
+
+        suggestions.append({
+        "type": "Insight",
+        "priority": "Low",
+        "title": "Balanced Precision and Recall",
+        "message": (
+            "The model maintains a healthy balance between precision "
+            "and recall, indicating consistent prediction quality."
+        )
+    })
+
+    elif precision < recall:
+        suggestions.append({
+
+            "type": "Insight",
+
+            "title": "Precision is lower than Recall",
+
+            "message": (
+                "The model predicts positive cases more "
+                "aggressively, which may increase false positives."
+            )
+        })
+
+    elif recall < precision:
+
+        suggestions.append({
+
+            "type": "Insight",
+
+            "title": "Recall is lower than Precision",
+
+            "message": (
+                "The model is conservative while predicting "
+                'positive cases may miss some actual positives.'
+            )
+        })
+
+    else:
+
+        suggestions.append({
+
+            "type": "Insight",
+            "priority": "Low",
+
+            "title": "Balanced Precision and Recall",
+
+            "message": (
+                "The model maintains a healthy balance between precision "
+                "and recall, indicating consistent prediction quality."
+            )
+        })
+
+    if f1 < 70:
+
+        suggestions.append({
+
+            "type": "Warning",
+
+            "title": "Balanced Performance Needed",
+
+            "message": (
+                "The F1-score indicates that precision "
+                "and recall are not well balanced."
+            )
+        })
+
+    if accuracy < 90:
+
+        suggestions.append({
+
+            "type": "Recommendation",
+            "priority": "Medium",
+
+            "title": "Try Another Algorithm",
+
+            "message": (
+                "Compare the current model with other suitable machine learning algorithms "
+                "such as Decision Tree, Random Forest, Support Vector Machine, Gradient Boosting, "
+                "XGBoost, LightGBM, or CatBoost to determine whether higher predictive performance can be achieved."
+            )
+        })
+
+    else:
+
+        suggestions.append({
+
+            "type": "Recommendation",
+            "priority": "Low",
+
+            "title": "Validate Before Deployment",
+
+            "message": (
+                "The current model performs very well. Validate it using "
+                "cross-validation or an independent test dataset before "
+                "deploying it in production."
+            )
+        })
+
+    return suggestions

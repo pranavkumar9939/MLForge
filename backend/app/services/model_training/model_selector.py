@@ -34,8 +34,29 @@ MODEL_REGISTRY = {
         ),
                 
         "Limitations": [
-            " its main limitation is its inability to capture complex, non-linear relationships. "
+            "its main limitation is its inability to capture complex, non-linear relationships. "
             "It fails when data does not fit a straight-line pattern."
+        ]
+    },
+
+    "Multi-Class Classification": {
+        "name": "Logistic Regression",
+
+        "model": LogisticRegression(
+            max_iter=1000
+        ),
+
+        "type": "Linear Model",
+
+        "reason": (
+            "The target variable contains more than two classes. "
+            "Multinomial Logistic Regression is a strong baseline "
+            "because it is interpretable, efficient, and performs "
+            "well on many multiclass classification tasks."
+        ),
+
+        "Limitations": [
+            "Cannot model highly complex nonlinear decision boundaries."
         ]
     }
 }
