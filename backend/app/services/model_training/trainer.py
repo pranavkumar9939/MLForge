@@ -1,6 +1,7 @@
 from sklearn.model_selection import train_test_split
 
 from app.services.model_training.model_selector import select_model
+from app.services.model_training.model_factory import create_model
 
 DEFAULT_TEST_SIZE = 0.2
 DEFAULT_RANDOM_STATE = 42
@@ -17,7 +18,6 @@ def train_model(X, y, analysis):
         raise ValueError(
             f"No model available for '{problem_type}'"
         )
-    model = model_info["model"]
 
     X_train, X_test, y_train, y_test = train_test_split(
         X,
@@ -26,15 +26,30 @@ def train_model(X, y, analysis):
         random_state=DEFAULT_RANDOM_STATE
     )
 
-    model.fit(X_train, y_train)
+    trained_models = []
 
-    predictions = model.predict(X_test)
+    for model_info_item in model_info["available_models"]:
+
+        model_name = model_info_item["name"]
+
+        model = create_model(model_name)
+
+        model.fit(X_train, y_train)
+
+        predictions = model.predict(X_test)
+
+        trained_models.append({
+            "model_name": model_name,
+            "model_type": model_info_item["type"],
+            "model": model,
+            "predictions": predictions
+        })
 
     return {
-        "model": model,
-        "model_name": model_info["name"],
         "problem_type": problem_type,
-        "predictions": predictions,
+
+        "trained_models": trained_models,
+        
         "X_train": X_train,
         "X_test": X_test,
         "y_train": y_train,

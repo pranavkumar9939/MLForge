@@ -40,7 +40,37 @@ def evaluate_model(training_result):
             f"Evaluation for '{problem_type}' is not implemented."
         )
 
-    return evaluator(training_result)
+    results = []
+
+    for trained_model in training_result["trained_models"]:
+
+        temp_training_result = {
+
+            "problem_type": training_result["problem_type"],
+
+            "y_test": training_result["y_test"],
+
+            "model_name": trained_model["model_name"],
+
+            "model_type": trained_model["model_type"],
+
+            "predictions": trained_model["predictions"]
+
+        }
+
+        result = evaluator(temp_training_result)
+
+        results.append(result)
+
+    results.sort(
+        key = lambda x: x["accuracy"]["value"],
+        reverse=True
+    )
+
+    return {
+        "best_model": results[0],
+        'all_models': results
+    }
 
 
 def evaluate_binary_classification(training_result):

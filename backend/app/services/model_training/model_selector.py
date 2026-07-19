@@ -1,13 +1,23 @@
-from sklearn.linear_model import LogisticRegression, LinearRegression
-
 
 MODEL_REGISTRY = {
     "Binary Classification": {
-        "name": "Logistic Regression",
-        
-        "model": LogisticRegression(),
-        
-        "type": "Linear Model",
+
+        "default_model_name": "Logistic Regression",
+
+        "available_models": [
+            {
+                "name": "Logistic Regression",
+                "type": "Linear Model"
+            },
+            {
+                "name": "Decision Tree",
+                "type": "Tree Based"
+            },
+            {
+                "name": "Random Forest",
+                "type": "Ensemble"
+            }
+        ],
         
         "reason": (
         "The target variable contains only two classes."
@@ -15,17 +25,21 @@ MODEL_REGISTRY = {
         "it is fast, interpretable, and performs well on binary classification problems."
         ),
         
-        "Limitations": [
+        "limitations": [
          "cannot model complex nonlinear relationships"
         ]
     },
 
     "Regression": {
-        "name": "Linear Regression",
-                
-        "model": LinearRegression(),
-                
-        "type": "Linear Model",
+
+        "default_model_name": "Linear Regression",
+
+        "available_models": [
+            {
+                "name": "Linear Regression",
+                "type": "Linear Model"
+            }
+        ],
                 
         "reason": (
             "Linear regression is chosen when predicting continuous numerical values (e.g., house prices) because it is simple, "
@@ -33,29 +47,39 @@ MODEL_REGISTRY = {
             "It acts as an excellent baseline model due to its transparency and computational efficiency."
         ),
                 
-        "Limitations": [
+        "limitations": [
             "its main limitation is its inability to capture complex, non-linear relationships. "
             "It fails when data does not fit a straight-line pattern."
         ]
     },
 
     "Multi-Class Classification": {
-        "name": "Logistic Regression",
 
-        "model": LogisticRegression(
-            max_iter=1000
-        ),
+        "default_model_name": "Decision Tree",
 
-        "type": "Linear Model",
+        "available_models": [
+            {
+                "name": "Logistic Regression",
+                "type": "Linear Model"
+            },
+            {
+                "name": "Decision Tree",
+                "type": "Tree Based"
+            },
+            {
+                "name": "Random Forest",
+                "type": "Ensemble"
+            }
+        ],
 
         "reason": (
             "The target variable contains more than two classes. "
-            "Multinomial Logistic Regression is a strong baseline "
-            "because it is interpretable, efficient, and performs "
-            "well on many multiclass classification tasks."
+            "Decision Tree is selected as the default baseline because "
+            "it can naturally handle multiclass classification, capture "
+            "nonlinear decision boundaries, and requires minimal data preprocessing."
         ),
 
-        "Limitations": [
+        "limitations": [
             "Cannot model highly complex nonlinear decision boundaries."
         ]
     }
@@ -66,4 +90,9 @@ def select_model(problem_type):
     Select the best suitable ML model. 
     """
 
-    return MODEL_REGISTRY.get(problem_type)
+    if problem_type not in MODEL_REGISTRY:
+        raise ValueError(
+            f"Unsupported problem type: {problem_type}"
+        )
+
+    return MODEL_REGISTRY[problem_type]

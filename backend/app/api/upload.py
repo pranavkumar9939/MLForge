@@ -56,8 +56,11 @@ async def upload_dataset(file: UploadFile = File(...)):
         "analysis": analysis,
         "preprocessing": preprocessing_result["summary"],
         "trainig": {
-            "model_name": training_result["model_name"],
-            "problem_type": training_result["problem_type"]
+            "problem_type": training_result["problem_type"],
+            "models_trained": [
+                model["model_name"]
+                for model in training_result["trained_models"]
+            ]
         },
         "evaluation": evaluation
     }
