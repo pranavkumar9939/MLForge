@@ -23,7 +23,7 @@ def predict_single_sample(
     explaination = explain_prediction(
         model = model,
         model_name = model_name,
-        prediction = None,
+        prediction = prediction_result["prediction"],
         input_data = input_data,
         feature_names = feature_names,
         label_encoder = label_encoder
