@@ -23,6 +23,9 @@ app.add_middleware(
 # Uploading datasets
 
 from app.api.upload import router as upload_router
+from app.api.predict import router as predict_router
 
 app.include_router(router)
 app.include_router(upload_router)
+app.include_router(predict_router)
+

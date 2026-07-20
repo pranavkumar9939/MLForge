@@ -9,9 +9,11 @@ from app.services.prediction.prediction_service import predict_single_sample
 DEFAULT_TEST_SIZE = 0.2
 DEFAULT_RANDOM_STATE = 42
 
-def train_model(X, 
+def train_model(
+    X, 
     y, 
     analysis,
+    pipeline = None,
     feature_names = None,
     label_encoder = None
     ):
@@ -80,5 +82,10 @@ def train_model(X,
         "X_train": X_train,
         "X_test": X_test,
         "y_train": y_train,
-        "y_test": y_test
+        "y_test": y_test,
+
+        "pipeline": pipeline,
+        "feature_names": feature_names,
+        "label_encoder": label_encoder,
+        "analysis": analysis
     }
