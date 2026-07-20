@@ -1,4 +1,7 @@
 from app.services.explainability.prediction_explainer import explain_prediction
+from app.services.explainability.probability import get_prediction_probabilities
+from app.services.explainability.feature_importance import generate_feature_importance
+from app.services.explainability.explanation_formatter import format_prediction_explanation
 
 def predict(
         model,
@@ -32,8 +35,24 @@ def predict(
         label_encoder=label_encoder
     )
 
-    return {
-        "prediction": prediction,
-        "confidence": confidence,
-        "explanation": explanation
-    }
+    probabilities = get_prediction_probabilities(
+        model = model,
+        input_data = input_data,
+        label_encoder = label_encoder
+    )
+
+    feature_importance = generate_feature_importance(
+        model = model,
+        model_name = model_name,
+        feature_names = feature_names
+    )
+
+    formatted_explanation = format_prediction_explanation(
+        prediction = explanation.get("prediction"),
+        confidence = explanation.get("confidence"),
+        probabilities = probabilities,
+        feature_importance = feature_importance,
+        top_contributing_features = explanation.get("top_contributing_features")
+    )
+
+    return formatted_explanation
