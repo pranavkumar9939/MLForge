@@ -45,7 +45,9 @@ async def upload_dataset(file: UploadFile = File(...)):
     training_result = train_model(
         preprocessing_result["X"],
         preprocessing_result["y"],
-        analysis
+        analysis,
+        feature_names = preprocessing_result["summary"]["numerical_columns"],
+        label_encoder = preprocessing_result.get("label_encoder")
     )
 
     evaluation = evaluate_model(training_result)
