@@ -20,16 +20,24 @@ def save_model(
         pipeline,
         label_encoder,
         feature_names,
-        metadata
+        metadata,
+        dataset_name,
+        model_name
 ):
+
+    dataset_folder = os.path.join(MODEL_DIR, dataset_name)
+    model_folder = os.path.join(dataset_folder, model_name)
+
+    os.makedirs(model_folder, exist_ok = True)
+    
     if not os.path.exists(MODEL_DIR):
         os.makedirs(MODEL_DIR)
 
-    model_path = os.path.join(MODEL_DIR, "model.pkl")
-    pipeline_path = os.path.join(MODEL_DIR, "pipeline.pkl")
-    label_encoder_path = os.path.join(MODEL_DIR, "label_encoder.pkl")
-    feature_names_path = os.path.join(MODEL_DIR, "feature_names.json")
-    metadata_path = os.path.join(MODEL_DIR, "metadata.json")
+    model_path = os.path.join(model_folder, "model.pkl")
+    pipeline_path = os.path.join(model_folder, "pipeline.pkl")
+    label_encoder_path = os.path.join(model_folder, "label_encoder.pkl")
+    feature_names_path = os.path.join(model_folder, "feature_names.json")
+    metadata_path = os.path.join(model_folder, "metadata.json")
 
     joblib.dump(model, model_path)
     joblib.dump(pipeline, pipeline_path)
