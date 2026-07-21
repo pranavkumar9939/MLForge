@@ -24,8 +24,10 @@ app.add_middleware(
 
 from app.api.upload import router as upload_router
 from app.api.predict import router as predict_router
+from app.api.models import router as models_router
 
 app.include_router(router)
 app.include_router(upload_router)
 app.include_router(predict_router)
+app.include_router(models_router)
 

@@ -1,3 +1,4 @@
+from datetime import datetime
 from fastapi import APIRouter, UploadFile, File
 from pathlib import Path
 import shutil
@@ -68,6 +69,12 @@ async def upload_dataset(file: UploadFile = File(...)):
 
     if best_model is not None:
 
+        if analysis["problem_type"] == "Regression":
+            performance = evaluation["best_model"]["r2_score"]
+
+        else:
+            performance = evaluation["best_model"]["accuracy"]["value"]
+
         save_model(
             model = best_model["model"],
             pipeline = preprocessing_result["pipeline"],
@@ -76,8 +83,13 @@ async def upload_dataset(file: UploadFile = File(...)):
             metadata = {
                 "model_name": best_model_name,
                 "problem_type": analysis["problem_type"],
-                "target_column": analysis["target_column"]
-            }
+                "target_column": analysis["target_column"],
+                "dataset_name": file.filename.replace(".csv",""),
+                "performance": performance,
+                "training_date": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            },
+            dataset_name = file.filename.replace(".csv",""),
+            model_name = best_model["model_name"]
         )
 
     return {

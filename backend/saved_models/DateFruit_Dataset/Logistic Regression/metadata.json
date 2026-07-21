@@ -1,0 +1,8 @@
+{
+    "model_name": "Logistic Regression",
+    "problem_type": "Multi-Class Classification",
+    "target_column": "Class",
+    "dataset_name": "DateFruit_Dataset",
+    "performance": 96.11,
+    "training_date": "2026-07-21 13:04:20"
+}

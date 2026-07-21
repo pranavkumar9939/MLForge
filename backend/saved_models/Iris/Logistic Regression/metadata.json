@@ -1,0 +1,8 @@
+{
+    "model_name": "Logistic Regression",
+    "problem_type": "Multi-Class Classification",
+    "target_column": "Species",
+    "dataset_name": "Iris",
+    "performance": 100.0,
+    "training_date": "2026-07-21 13:14:11"
+}

@@ -13,13 +13,24 @@ BASE_DIR = os.path.dirname(
 MODEL_DIR = os.path.join(BASE_DIR, "saved_models")
 
 
-def load_saved_model():
+def load_saved_model(
+        dataset_name,
+        model_name
+):
 
-    model_path = os.path.join(MODEL_DIR, "model.pkl")
-    pipeline_path = os.path.join(MODEL_DIR, "pipeline.pkl")
-    label_encoder_path = os.path.join(MODEL_DIR, "label_encoder.pkl")
-    feature_names_path = os.path.join(MODEL_DIR, "feature_names.json")
-    metadata_path = os.path.join(MODEL_DIR, "metadata.json")
+    dataset_folder = os.path.join(MODEL_DIR, dataset_name)
+    model_folder = os.path.join(dataset_folder, model_name)
+
+    if not os.path.exists(model_folder):
+        raise FileNotFoundError(
+            f"Model '{model_name}' for dataset '{dataset_name}' not found."
+        )
+
+    model_path = os.path.join(model_folder, "model.pkl")
+    pipeline_path = os.path.join(model_folder, "pipeline.pkl")
+    label_encoder_path = os.path.join(model_folder, "label_encoder.pkl")
+    feature_names_path = os.path.join(model_folder, "feature_names.json")
+    metadata_path = os.path.join(model_folder, "metadata.json")
 
     model = joblib.load(model_path)
     pipeline = joblib.load(pipeline_path)
