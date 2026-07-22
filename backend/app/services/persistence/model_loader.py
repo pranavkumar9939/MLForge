@@ -31,6 +31,7 @@ def load_saved_model(
     label_encoder_path = os.path.join(model_folder, "label_encoder.pkl")
     feature_names_path = os.path.join(model_folder, "feature_names.json")
     metadata_path = os.path.join(model_folder, "metadata.json")
+    background_data_path = os.path.join(model_folder, "background_data.pkl")
 
     model = joblib.load(model_path)
     pipeline = joblib.load(pipeline_path)
@@ -45,11 +46,17 @@ def load_saved_model(
     with open(metadata_path, "r") as f:
         metadata = json.load(f)
 
+    background_data = None
+
+    if os.path.exists(background_data_path):
+        background_data = joblib.load(background_data_path)
+
 
     return {
         "model": model,
         "pipeline": pipeline,
         "label_encoder": label_encoder,
         "feature_names": feature_names,
-        "metadata": metadata
+        "metadata": metadata,
+        "background_data": background_data
     }

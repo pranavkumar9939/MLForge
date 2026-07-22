@@ -1,8 +1,11 @@
 {
     "model_name": "Logistic Regression",
     "problem_type": "Multi-Class Classification",
+    "algorithm": "LogisticRegression",
     "target_column": "Class",
+    "feature_count": 34,
     "dataset_name": "DateFruit_Dataset",
     "performance": 96.11,
-    "training_date": "2026-07-21 13:04:20"
+    "training_date": "2026-07-22 13:03:24",
+    "mlforge_version": "1.0.0"
 }
