@@ -81,3 +81,54 @@ def list_saved_models():
     return {
         "datasets": datasets
     }
+
+
+
+def get_model_details(
+        dataset_name,
+        model_name
+):
+
+    model_path = os.path.join(
+        MODEL_DIR,
+        dataset_name,
+        model_name
+    )
+
+    if not os.path.exists(model_path):
+        return None
+
+    metadata_path = os.path.join(
+        model_path,
+        "metadata.json"
+    )
+
+    with open(metadata_path, "r") as f:
+        metadata = json.load(f)
+
+    return metadata
+
+
+def get_model_evaluation(
+        dataset_name,
+        model_name
+):
+
+    model_path = os.path.join(
+        MODEL_DIR,
+        dataset_name,
+        model_name
+    )
+
+    if not os.path.exists(model_path):
+        return None
+
+    evaluation_path = os.path.join(
+        model_path,
+        "evaluation.json"
+    )
+
+    with open(evaluation_path, "r") as f:
+        evaluation = json.load(f)
+
+    return evaluation

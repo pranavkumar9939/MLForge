@@ -1,3 +1,4 @@
+import numpy as np
 from sklearn.model_selection import train_test_split
 
 from app.services.model_training.model_selector import select_model
@@ -8,6 +9,7 @@ from app.services.prediction.prediction_service import predict_single_sample
 
 DEFAULT_TEST_SIZE = 0.2
 DEFAULT_RANDOM_STATE = 42
+
 
 def train_model(
     X, 
@@ -38,6 +40,14 @@ def train_model(
 
     trained_models = []
 
+    sample_size = min(100, len(X_train))
+
+    indices = np.random.choice(
+        len(X_train),
+        sample_size,
+        replace=False
+    )
+
     for model_info_item in model_info["available_models"]:
 
         model_name = model_info_item["name"]
@@ -59,6 +69,7 @@ def train_model(
             model_name = model_name,
             input_data = X_test[[0]],
             feature_names = feature_names,
+            background_data = X_train[indices],
             label_encoder = label_encoder 
         )
         

@@ -6,6 +6,7 @@ import shutil
 from app.services.dataset_service import analyze_dataset
 
 import pandas as pd
+import numpy as np
 
 # from app.services.dataset_service import analyze_dataset
 from app.services.preprocessing.preprocessing_service import preprocess_dataset
@@ -75,6 +76,18 @@ async def upload_dataset(file: UploadFile = File(...)):
         else:
             performance = evaluation["best_model"]["accuracy"]["value"]
 
+        X_train = training_result["X_train"]
+
+        rng = np.random.default_rng(seed=42)
+
+        sample_size = min(100, len(X_train))
+
+        indices = rng.choice(
+            len(X_train),
+            size = sample_size,
+            replace=False
+        )
+
         save_model(
             model = best_model["model"],
             pipeline = preprocessing_result["pipeline"],
@@ -83,13 +96,18 @@ async def upload_dataset(file: UploadFile = File(...)):
             metadata = {
                 "model_name": best_model_name,
                 "problem_type": analysis["problem_type"],
+                "algorithm": type(best_model["model"]).__name__,
                 "target_column": analysis["target_column"],
+                "feature_count": len(preprocessing_result["feature_names"]),
                 "dataset_name": file.filename.replace(".csv",""),
                 "performance": performance,
-                "training_date": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                "training_date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "mlforge_version": "1.0.0"
             },
             dataset_name = file.filename.replace(".csv",""),
-            model_name = best_model["model_name"]
+            model_name = best_model["model_name"],
+            evaluation = evaluation["best_model"],
+            background_data = X_train[indices]
         )
 
     return {

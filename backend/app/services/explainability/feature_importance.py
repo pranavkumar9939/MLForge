@@ -11,7 +11,7 @@ def generate_feature_importance(
 
         importance = model.feature_importances_
     
-    elif model_name == "Logistic Regression":
+    elif hasattr(model, "coef_"):
 
         coefficients = np.abs(model.coef_)
 
@@ -21,23 +21,20 @@ def generate_feature_importance(
         else:
             importance = coefficients
 
-        feature_importance = [
-            {
-                "feature": feature,
-                "importance": float(score)
-            }
-            for feature, score in zip(feature_names, importance)
-        ]
+        feature_importance =coefficients
 
-        feature_importance.sort(
-            key = lambda x: x["importance"],
-            reverse = True
-        )
+        # feature_importance.sort(
+        #     key = lambda x: x["importance"],
+        #     reverse = True
+        # )
 
         return feature_importance[:top_n]
 
     else:
-        return []
+        return {
+            "supported": False,
+            "feature_importance": []
+        }
 
     feature_importance = [
         {

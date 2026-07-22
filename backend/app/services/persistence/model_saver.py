@@ -22,7 +22,9 @@ def save_model(
         feature_names,
         metadata,
         dataset_name,
-        model_name
+        model_name,
+        evaluation,
+        background_data
 ):
 
     dataset_folder = os.path.join(MODEL_DIR, dataset_name)
@@ -38,9 +40,12 @@ def save_model(
     label_encoder_path = os.path.join(model_folder, "label_encoder.pkl")
     feature_names_path = os.path.join(model_folder, "feature_names.json")
     metadata_path = os.path.join(model_folder, "metadata.json")
+    evaluation_path = os.path.join(model_folder, "evaluation.json")
+    background_data_path = os.path.join(model_folder, "background_data.pkl")
 
     joblib.dump(model, model_path)
     joblib.dump(pipeline, pipeline_path)
+    joblib.dump(background_data, background_data_path)
 
     if label_encoder is not None:
         joblib.dump(label_encoder, label_encoder_path)
@@ -50,4 +55,7 @@ def save_model(
 
     with open(metadata_path, "w") as f:
         json.dump(metadata, f, indent=4)
+
+    with open(evaluation_path, "w") as f:
+        json.dump(evaluation, f, indent=4)
 

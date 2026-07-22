@@ -27,6 +27,7 @@ def get_prediction(dataset_name: str,
         model_name = artifacts["metadata"]["model_name"],
         input_data = X,
         feature_names = artifacts["feature_names"],
+        background_data = artifacts["background_data"],
         label_encoder = artifacts["label_encoder"]
     )
 
