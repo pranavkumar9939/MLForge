@@ -21,15 +21,6 @@ def generate_feature_importance(
         else:
             importance = coefficients
 
-        feature_importance =coefficients
-
-        # feature_importance.sort(
-        #     key = lambda x: x["importance"],
-        #     reverse = True
-        # )
-
-        return feature_importance[:top_n]
-
     else:
         return {
             "supported": False,

@@ -107,7 +107,8 @@ async def upload_dataset(file: UploadFile = File(...)):
             dataset_name = file.filename.replace(".csv",""),
             model_name = best_model["model_name"],
             evaluation = evaluation["best_model"],
-            background_data = X_train[indices]
+            background_data = X_train[indices],
+            roc_curve=training_result["roc_curve"]
         )
 
     return {

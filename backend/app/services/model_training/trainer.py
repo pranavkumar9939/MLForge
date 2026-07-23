@@ -6,6 +6,7 @@ from app.services.model_training.model_factory import create_model
 
 from app.services.model_training.cross_validator import perform_cross_validation
 from app.services.prediction.prediction_service import predict_single_sample
+from app.services.evaluation.roc_curve_service import generate_roc_curve
 
 DEFAULT_TEST_SIZE = 0.2
 DEFAULT_RANDOM_STATE = 42
@@ -72,8 +73,17 @@ def train_model(
             background_data = X_train[indices],
             label_encoder = label_encoder 
         )
+
+        print(label_encoder)
+        print(type(label_encoder))
         
-            
+        roc_curve = generate_roc_curve(
+            model = model,
+            X_test = X_test,
+            y_test = y_test,
+            problem_type = problem_type,
+            class_names = label_encoder.classes_ if label_encoder else None
+        )
         
 
         trained_models.append({
@@ -82,8 +92,10 @@ def train_model(
             "model": model,
             "predictions": predictions,
             "cross_validation": cv_result,
-            "sample_prediction": sample_prediction
+            "sample_prediction": sample_prediction,
+            "roc_curve": roc_curve
         })
+
 
     return {
         "problem_type": problem_type,
@@ -98,5 +110,6 @@ def train_model(
         "pipeline": pipeline,
         "feature_names": feature_names,
         "label_encoder": label_encoder,
-        "analysis": analysis
+        "analysis": analysis,
+        "roc_curve": roc_curve
     }

@@ -24,6 +24,7 @@ def save_model(
         dataset_name,
         model_name,
         evaluation,
+        roc_curve,
         background_data
 ):
 
@@ -42,6 +43,7 @@ def save_model(
     metadata_path = os.path.join(model_folder, "metadata.json")
     evaluation_path = os.path.join(model_folder, "evaluation.json")
     background_data_path = os.path.join(model_folder, "background_data.pkl")
+    roc_curve_path = os.path.join(model_folder, "roc_curve.json")
 
     joblib.dump(model, model_path)
     joblib.dump(pipeline, pipeline_path)
@@ -58,4 +60,7 @@ def save_model(
 
     with open(evaluation_path, "w") as f:
         json.dump(evaluation, f, indent=4)
+
+    with open(roc_curve_path, "w") as f:
+        json.dump(roc_curve, f, indent=4 )
 
