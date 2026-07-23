@@ -32,6 +32,7 @@ def load_saved_model(
     feature_names_path = os.path.join(model_folder, "feature_names.json")
     metadata_path = os.path.join(model_folder, "metadata.json")
     background_data_path = os.path.join(model_folder, "background_data.pkl")
+    roc_curve_path = os.path.join(model_folder, "roc_curve.json")
 
     model = joblib.load(model_path)
     pipeline = joblib.load(pipeline_path)
@@ -46,6 +47,9 @@ def load_saved_model(
     with open(metadata_path, "r") as f:
         metadata = json.load(f)
 
+    with open(roc_curve_path, "r") as f:
+        roc_curve = json.load(f)
+
     background_data = None
 
     if os.path.exists(background_data_path):
@@ -58,5 +62,6 @@ def load_saved_model(
         "label_encoder": label_encoder,
         "feature_names": feature_names,
         "metadata": metadata,
-        "background_data": background_data
+        "background_data": background_data,
+        "roc_curve": roc_curve
     }
