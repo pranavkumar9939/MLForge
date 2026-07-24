@@ -7,6 +7,8 @@ from app.services.model_training.model_factory import create_model
 from app.services.model_training.cross_validator import perform_cross_validation
 from app.services.prediction.prediction_service import predict_single_sample
 from app.services.evaluation.roc_curve_service import generate_roc_curve
+from app.services.evaluation.confusion_matrix_service import generate_confusion_matrix
+
 
 DEFAULT_TEST_SIZE = 0.2
 DEFAULT_RANDOM_STATE = 42
@@ -84,6 +86,21 @@ def train_model(
             problem_type = problem_type,
             class_names = label_encoder.classes_ if label_encoder else None
         )
+
+        confusion_matrix = generate_confusion_matrix(
+            model = model,
+            X_test = X_test,
+            y_test = y_test,
+            class_names = (
+                label_encoder.classes_.tolist()
+                if label_encoder is not None
+                else None
+            )
+        )
+
+        print("\n========== CONFUSION MATRIX ==========")
+        print(confusion_matrix)
+        print("======================================\n")
         
 
         trained_models.append({
@@ -93,7 +110,8 @@ def train_model(
             "predictions": predictions,
             "cross_validation": cv_result,
             "sample_prediction": sample_prediction,
-            "roc_curve": roc_curve
+            "roc_curve": roc_curve,
+            "confusion_matrix": confusion_matrix
         })
 
 
@@ -111,5 +129,6 @@ def train_model(
         "feature_names": feature_names,
         "label_encoder": label_encoder,
         "analysis": analysis,
-        "roc_curve": roc_curve
+        "roc_curve": roc_curve,
+        "confusion_matrix": confusion_matrix
     }

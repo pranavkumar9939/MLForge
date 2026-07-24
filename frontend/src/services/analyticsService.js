@@ -27,3 +27,13 @@ export const getFeatureImportance = async (
 
     return response.data;
 };
+
+export const getConfusionMatrix = async (dataset, model) => {
+    const response = await axios.get(
+        `${API}/confusion-matrix/${dataset}/${encodeURIComponent(model)}`
+    );
+
+    return response.data
+};
+
+

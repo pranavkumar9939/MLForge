@@ -1,0 +1,37 @@
+.cm-container{
+
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+.cm-table{
+
+    border-collapse: collapse;
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+}
+
+.cm-table th{
+
+    padding: 12px;
+    background: #f8fafc;
+    border: 1px solid #ddd;
+    font-weight: 600;
+
+}
+
+.cm-table td{
+
+    padding: 14px;
+    border: 1px solid #ddd;
+    font-weight: bold;
+    transition: .2s;
+
+}
+
+.cm-table td:hover{
+
+    transform: scale(1.05);
+}
