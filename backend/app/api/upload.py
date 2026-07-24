@@ -108,7 +108,8 @@ async def upload_dataset(file: UploadFile = File(...)):
             model_name = best_model["model_name"],
             evaluation = evaluation["best_model"],
             background_data = X_train[indices],
-            roc_curve=training_result["roc_curve"]
+            roc_curve=training_result["roc_curve"],
+            confusion_matrix = training_result["confusion_matrix"]
         )
 
     return {

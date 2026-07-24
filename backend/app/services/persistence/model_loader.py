@@ -33,6 +33,7 @@ def load_saved_model(
     metadata_path = os.path.join(model_folder, "metadata.json")
     background_data_path = os.path.join(model_folder, "background_data.pkl")
     roc_curve_path = os.path.join(model_folder, "roc_curve.json")
+    confusion_matrix_path = os.path.join(model_folder, "confusion_matrix.json")
 
     model = joblib.load(model_path)
     pipeline = joblib.load(pipeline_path)
@@ -50,6 +51,9 @@ def load_saved_model(
     with open(roc_curve_path, "r") as f:
         roc_curve = json.load(f)
 
+    with open(confusion_matrix_path, "r") as f:
+        confusion_matrix = json.load(f)
+
     background_data = None
 
     if os.path.exists(background_data_path):
@@ -63,5 +67,6 @@ def load_saved_model(
         "feature_names": feature_names,
         "metadata": metadata,
         "background_data": background_data,
-        "roc_curve": roc_curve
+        "roc_curve": roc_curve,
+        "confusion_matrix": confusion_matrix
     }

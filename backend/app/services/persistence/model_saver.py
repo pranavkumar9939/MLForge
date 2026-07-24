@@ -25,6 +25,7 @@ def save_model(
         model_name,
         evaluation,
         roc_curve,
+        confusion_matrix,
         background_data
 ):
 
@@ -44,6 +45,7 @@ def save_model(
     evaluation_path = os.path.join(model_folder, "evaluation.json")
     background_data_path = os.path.join(model_folder, "background_data.pkl")
     roc_curve_path = os.path.join(model_folder, "roc_curve.json")
+    confusion_matrix_path = os.path.join(model_folder, "confusion_matrix.json")
 
     joblib.dump(model, model_path)
     joblib.dump(pipeline, pipeline_path)
@@ -63,4 +65,7 @@ def save_model(
 
     with open(roc_curve_path, "w") as f:
         json.dump(roc_curve, f, indent=4 )
+
+    with open(confusion_matrix_path, "w") as f:
+        json.dump(confusion_matrix, f)
 
