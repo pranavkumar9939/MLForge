@@ -1,0 +1,98 @@
+{
+    "model_name": "Random Forest",
+    "problem_type": "Binary Classification",
+    "accuracy": {
+        "metric": "Accuracy",
+        "value": 94.4,
+        "status": "Excellent",
+        "color": "Green",
+        "explanation": "The model correctlty predicted 94.4% of all samples.This is considered excellent performance."
+    },
+    "precision": {
+        "metric": "Precision",
+        "value": 95.1,
+        "status": "Excellent",
+        "color": "Green",
+        "explanation": "When the model predicts a positive class, it is correct 95.1% of the time.This is considered excellent performance."
+    },
+    "recall": {
+        "metric": "Recall",
+        "value": 94.26,
+        "status": "Excellent",
+        "color": "Green",
+        "explanation": "The model successfully identified 94.26% of the actual positive samples.This is considered excellent performance."
+    },
+    "f1_score": {
+        "metric": "F1 Score",
+        "value": 94.68,
+        "status": "Excellent",
+        "color": "Green",
+        "explanation": "The balance between Precision and Recall is 94.68%This is considered excellent performance."
+    },
+    "confusion_matrix": [
+        [
+            851,
+            49
+        ],
+        [
+            58,
+            952
+        ]
+    ],
+    "classification_report": {
+        "0": {
+            "precision": 0.9361936193619362,
+            "recall": 0.9455555555555556,
+            "f1-score": 0.9408512990602543,
+            "support": 900.0
+        },
+        "1": {
+            "precision": 0.951048951048951,
+            "recall": 0.9425742574257425,
+            "f1-score": 0.9467926404773744,
+            "support": 1010.0
+        },
+        "accuracy": 0.943979057591623,
+        "macro avg": {
+            "precision": 0.9436212852054436,
+            "recall": 0.944064906490649,
+            "f1-score": 0.9438219697688144,
+            "support": 1910.0
+        },
+        "weighted avg": {
+            "precision": 0.9440490565367451,
+            "recall": 0.943979057591623,
+            "f1-score": 0.9439930555164278,
+            "support": 1910.0
+        }
+    },
+    "summary": {
+        "total_predictions": 1910,
+        "correct_predictions": 1803
+    },
+    "overall_assessment": {
+        "overall_score": 94.61,
+        "status": "Excellent",
+        "summary": "The model demonstrates excellent predictive performance across all evaluation metrics",
+        "recommendation": "The model is suitable for deployment after validation on unseen data."
+    },
+    "improvement_suggestions": [
+        {
+            "type": "Performance",
+            "priority": "Low",
+            "title": "Excellent Model Performance",
+            "message": "The model achieved excellent accuracy and is suitable for prediction after validation on unseen data."
+        },
+        {
+            "type": "Insight",
+            "title": "Recall is lower than Precision",
+            "message": "The model is conservative while predicting positive cases may miss some actual positives."
+        },
+        {
+            "type": "Recommendation",
+            "priority": "Low",
+            "title": "Validate Before Deployment",
+            "message": "The current model performs very well. Validate it using cross-validation or an independent test dataset before deploying it in production."
+        }
+    ]
+}

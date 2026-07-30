@@ -7,6 +7,18 @@ def generate_feature_importance(
         top_n=10
 ):
 
+    clean_names = []
+
+    for feature in feature_names:
+
+
+        clean_names.append(
+            feature
+            .replace("numerical__","")
+            .replace("categorical__", "")
+            .replace("_", "")
+        )
+
     if hasattr(model, "feature_importances_"):
 
         importance = model.feature_importances_
@@ -32,7 +44,7 @@ def generate_feature_importance(
             "feature": feature,
             "importance": float(score)
         }
-        for feature, score in zip(feature_names, importance)
+        for feature, score in zip(clean_names, importance)
     ]
 
     feature_importance.sort(

@@ -4,6 +4,11 @@ import ROCChart from "./charts/ROCChart";
 import { getConfusionMatrix, getFeatureImportance, getROC } from "../../services/analyticsService";
 import ConfusionMatrix from "./charts/ConfusionMatrix";
 import FeatureImportanceChart from "./charts/FeatureImportanceChart";
+import ControlPanel from "./controls/ControlPanel";
+import "./PerformanceDashboard.css";
+import { getDatasets } from "../../services/analyticsService";
+import { getMetrics } from "../../services/analyticsService";
+
 
 export default function PerformanceDashboard(){
 
@@ -11,27 +16,56 @@ export default function PerformanceDashboard(){
     const [matrix, setMatrix] = useState(null);
     const [featureImportance, setFeatureImportance] = useState(null);
 
+    const [selectedDataset, setSelectedDataset] = useState("");
+    const [selectedModel, setSelectedModel] = useState("Logistic Regression");
+
+    const [datasets, setDatasets] = useState([]);
+    const [metrics, setMetrics] = useState(null);
+
+    const [models] = useState([
+        "Logistic Regression"
+    ]);
+
+    useEffect(() => {
+
+        // console.log("Datasets: ", data);
+
+        getDatasets().then(data => {
+            setDatasets(data);
+
+            if (data.length > 0){
+                setSelectedDataset(data[0]);
+            }
+        });
+
+        
+        
+
+    }, []);
+
     useEffect(()=>{
 
+        if(!selectedDataset) return;
+
         getROC(
-            "DateFruit_Dataset",
-            "Logistic Regression"
+            selectedDataset,
+            selectedModel
         ).then(data=>{
         
             setROC(data.roc_curve);
         });
 
         getConfusionMatrix(
-            "DateFruit_Dataset",
-            "Logistic Regression"
+            selectedDataset,
+            selectedModel
         ).then(data => {
             console.log(data);
             setMatrix(data.confusion_matrix)
         });
 
         getFeatureImportance(
-            "DateFruit_Dataset",
-            "Logistic Regression"
+            selectedDataset,
+            selectedModel
         ).then(data => {
 
             console.log(data);
@@ -41,33 +75,69 @@ export default function PerformanceDashboard(){
             )
         });
 
-    },[]);
+        getMetrics(
+            selectedDataset,
+            selectedModel
+        ).then(data => {
+            console.log("Metrics:", data);
+
+            setMetrics(data);
+
+        });
+
+
+    },[selectedDataset, selectedModel]);
 
     return (
 
-        <div style = {{padding: "30px"}}>
+        <div className = "dashboard">
 
-            <h1>Model Performance Dashboard</h1>
+            <h1 className = "dashboard-title">
+                Model Performance Dashboard
+            </h1>
 
-            <MetricsSection />
+            <ControlPanel 
+                datasets = {datasets}
+                models = {models}
 
-            <h2>ROC Curve</h2>
+                selectedDataset = {selectedDataset}
+                selectedModel = {selectedModel}
 
-            <ROCChart rocData={roc} />
+                onDatasetChange = {setSelectedDataset}
+                onModelChange = {setSelectedModel}
 
-            <h2 style = {{marginTop: 60}}>
-                Confusion Matrix
-            </h2>
-
-            <ConfusionMatrix matrix={matrix} />
-
-            <h2 style = {{marginTop : 60}}>
-                Feature Importance
-            </h2>
-
-            <FeatureImportanceChart
-                data = {featureImportance}
             />
+
+            <MetricsSection metrics = {metrics}/>
+
+            <h2 className="section-title">📈 ROC Curve</h2>
+
+            <div className="chart-card">
+
+                <ROCChart rocData={roc} />
+
+            </div>
+
+            <h2 className="section-title">
+                📊 Confusion Matrix
+            </h2>
+
+            <div className="chart-card">
+
+                <ConfusionMatrix matrix={matrix} />
+
+            </div>
+
+            <h2 className="section-title">
+                ⭐ Feature Importance
+            </h2>
+
+            <div className="chart-card">
+
+                <FeatureImportanceChart
+                    data = {featureImportance}
+                />
+            </div>
 
         </div>
     );

@@ -1,6 +1,8 @@
 import axios from "axios";
 
 const API = "http://localhost:8000";
+// const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = "http://localhost:8000";
 
 export const getROC = async (dataset, model) => {
     const response = await axios.get(
@@ -37,3 +39,23 @@ export const getConfusionMatrix = async (dataset, model) => {
 };
 
 
+
+export async function getDatasets() {
+
+    const response = await axios.get(
+        "http://localhost:8000/datasets"
+    );
+
+    return response.data
+}
+
+
+export async function getMetrics(
+    dataset,
+    model
+){
+
+    const response = await axios.get(`${API_URL}/metrics/${dataset}/${model}`);
+
+    return response.data;
+}

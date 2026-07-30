@@ -1,6 +1,6 @@
 import "./MetricCard.css";
 
-export default function MetricCard({title, value, color = "#2563EB"}) {
+export default function MetricCard({title, value, color = "#2563EB", icon}) {
     return (
         <div className = "metric-card">
             <div 
@@ -10,7 +10,7 @@ export default function MetricCard({title, value, color = "#2563EB"}) {
 
             <div className="metric-content">
                 <p className="metric-title">
-                    {title}
+                    {icon} {title}
                 </p>
 
                 <h2 className="metric-value">

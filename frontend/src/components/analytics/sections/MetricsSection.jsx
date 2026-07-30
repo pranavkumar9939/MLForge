@@ -1,7 +1,10 @@
 import MetricCard from "../cards/MetricCard";
 import "./MetricsSection.css";
 
-export default function MetricsSection() {
+export default function MetricsSection({metrics}) {
+
+    if(!metrics)
+        return <p>Loading Metrics...</p>
 
     return (
 
@@ -9,26 +12,30 @@ export default function MetricsSection() {
 
             <MetricCard
                 title = "Accuracy"
-                value = "98.2%"
+                value = {`${metrics.accuracy}%`}
                 color = "#2563EB"
+                icon="🎯"
             />
 
             <MetricCard 
                 title = "Precision"
-                value = "97.8%"
+                value = {`${metrics.precision}%`}
                 color = "#16A34A"
+                icon="📊"
             />
 
             <MetricCard 
                 title = "Recall"
-                value = "97.1%"
+                value = {`${metrics.recall}%`}
                 color = "#DC2626"
+                icon="📥"
             />
 
             <MetricCard
                 title = "F1 Score"
-                value = "97.4%"
+                value = {`${metrics.f1_score}%`}
                 color = "#9333EA"
+                icon="⭐"
             />
         </div>
     );
