@@ -30,6 +30,9 @@ from app.api.compare import router as compare_router
 from app.api.feature_importance import router as feature_importance_router
 from app.api.roc import router as roc_router
 from app.api.confusion_matrix import router as confusion_router
+from app.api.datasets import router as datasets_router
+from app.api.metrics import router as metrics_router
+
 
 app.include_router(router)
 app.include_router(upload_router)
@@ -39,4 +42,6 @@ app.include_router(compare_router)
 app.include_router(feature_importance_router)
 app.include_router(roc_router, prefix="/roc", tags=["ROC Curve"])
 app.include_router(confusion_router, prefix="/confusion-matrix", tags=["Confusion Matrix"])
+app.include_router(datasets_router)
+app.include_router(metrics_router)
 
