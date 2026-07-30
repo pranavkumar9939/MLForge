@@ -62,10 +62,19 @@ def evaluate_model(training_result):
 
         results.append(result)
 
-    results.sort(
-        key = lambda x: x["accuracy"]["value"],
-        reverse=True
-    )
+    if training_result["problem_type"] == "Regression":
+
+        results.sort(
+            key=lambda x: x["r2_score"],
+            reverse=True
+        )
+
+    else:
+
+        results.sort(
+            key=lambda x: x["accuracy"]["value"],
+            reverse=True
+        )
 
     return {
         "best_model": results[0],

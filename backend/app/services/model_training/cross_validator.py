@@ -19,4 +19,3 @@ def perform_cross_validation(model, X, y):
         "mean": float(scores.mean()),
         "std": float(scores.std())
     }
-

@@ -1,0 +1,98 @@
+{
+    "model_name": "Logistic Regression",
+    "problem_type": "Binary Classification",
+    "accuracy": {
+        "metric": "Accuracy",
+        "value": 82.2,
+        "status": "Good",
+        "color": "Light Green",
+        "explanation": "The model correctlty predicted 82.2% of all samples.This is considered good performance."
+    },
+    "precision": {
+        "metric": "Precision",
+        "value": 82.71,
+        "status": "Good",
+        "color": "Light Green",
+        "explanation": "When the model predicts a positive class, it is correct 82.71% of the time.This is considered good performance."
+    },
+    "recall": {
+        "metric": "Recall",
+        "value": 83.86,
+        "status": "Good",
+        "color": "Light Green",
+        "explanation": "The model successfully identified 83.86% of the actual positive samples.This is considered good performance."
+    },
+    "f1_score": {
+        "metric": "F1 Score",
+        "value": 83.28,
+        "status": "Good",
+        "color": "Light Green",
+        "explanation": "The balance between Precision and Recall is 83.28%This is considered good performance."
+    },
+    "confusion_matrix": [
+        [
+            723,
+            177
+        ],
+        [
+            163,
+            847
+        ]
+    ],
+    "classification_report": {
+        "0": {
+            "precision": 0.8160270880361173,
+            "recall": 0.8033333333333333,
+            "f1-score": 0.8096304591265397,
+            "support": 900.0
+        },
+        "1": {
+            "precision": 0.8271484375,
+            "recall": 0.8386138613861386,
+            "f1-score": 0.8328416912487709,
+            "support": 1010.0
+        },
+        "accuracy": 0.8219895287958116,
+        "macro avg": {
+            "precision": 0.8215877627680587,
+            "recall": 0.820973597359736,
+            "f1-score": 0.8212360751876553,
+            "support": 1910.0
+        },
+        "weighted avg": {
+            "precision": 0.82190801105105,
+            "recall": 0.8219895287958116,
+            "f1-score": 0.8219044614529551,
+            "support": 1910.0
+        }
+    },
+    "summary": {
+        "total_predictions": 1910,
+        "correct_predictions": 1570
+    },
+    "overall_assessment": {
+        "overall_score": 83.01,
+        "status": "Good",
+        "summary": "The model demonstrates good predictive performance across most evaluation metrics.",
+        "recommendation": "Consider performing feature engineering to improve model performance."
+    },
+    "improvement_suggestions": [
+        {
+            "type": "Performance",
+            "priority": "Medium",
+            "title": "Good Model Performance",
+            "message": "The model performs well and produces reliable predictions. Further improvements through feature engineering or hyperparameter tuning may increase performance."
+        },
+        {
+            "type": "Insight",
+            "title": "Precision is lower than Recall",
+            "message": "The model predicts positive cases more aggressively, which may increase false positives."
+        },
+        {
+            "type": "Recommendation",
+            "priority": "Medium",
+            "title": "Try Another Algorithm",
+            "message": "Compare Logistic Regression with tree-based models such as Random Forest or Gradient Boosting to determine whether better predictive performance can be achieved."
+        }
+    ]
+}

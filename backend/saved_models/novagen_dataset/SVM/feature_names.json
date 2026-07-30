@@ -1,0 +1,19 @@
+[
+    "numerical__Age",
+    "numerical__BMI",
+    "numerical__Blood_Pressure",
+    "numerical__Cholesterol",
+    "numerical__Glucose_Level",
+    "numerical__Heart_Rate",
+    "numerical__Sleep_Hours",
+    "numerical__Exercise_Hours",
+    "numerical__Water_Intake",
+    "numerical__Stress_Level",
+    "numerical__Smoking",
+    "numerical__Alcohol",
+    "numerical__Diet",
+    "numerical__MentalHealth",
+    "numerical__PhysicalActivity",
+    "numerical__MedicalHistory",
+    "numerical__Allergies"
+]

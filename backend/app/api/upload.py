@@ -56,60 +56,69 @@ async def upload_dataset(file: UploadFile = File(...)):
 
     evaluation = evaluate_model(training_result)
 
-    best_model_name = evaluation["best_model"]["model_name"]
+    # best_model_name = evaluation["best_model"]["model_name"]
 
-    best_model = None
+    # best_model = None
 
     for trained_model in training_result["trained_models"]:
 
-        if trained_model["model_name"] == best_model_name:
+        model_name = trained_model["model_name"]
 
-            best_model = trained_model
-            break
+        model_eval = None
 
+        for result in evaluation["all_models"]:
 
-    if best_model is not None:
+            if result["model_name"] == model_name:
+
+                model_eval = result
+                break
+
+        if model_eval is None:
+            continue
 
         if analysis["problem_type"] == "Regression":
-            performance = evaluation["best_model"]["r2_score"]
+            performance = model_eval["r2_score"]
 
         else:
-            performance = evaluation["best_model"]["accuracy"]["value"]
+            performance = model_eval["accuracy"]["value"]
 
         X_train = training_result["X_train"]
 
-        rng = np.random.default_rng(seed=42)
+        rng = np.random.default_rng(seed = 42)
 
         sample_size = min(100, len(X_train))
 
         indices = rng.choice(
             len(X_train),
             size = sample_size,
-            replace=False
+            replace = False
         )
 
         save_model(
-            model = best_model["model"],
+            model = trained_model["model"],
             pipeline = preprocessing_result["pipeline"],
             label_encoder = preprocessing_result.get("label_encoder"),
             feature_names = preprocessing_result["feature_names"].tolist(),
+
             metadata = {
-                "model_name": best_model_name,
+                "model_name": model_name,
                 "problem_type": analysis["problem_type"],
-                "algorithm": type(best_model["model"]).__name__,
+                "algorithm": type(trained_model["model"]).__name__,
                 "target_column": analysis["target_column"],
                 "feature_count": len(preprocessing_result["feature_names"]),
-                "dataset_name": file.filename.replace(".csv",""),
+                "dataset_name": file.filename.replace(".csv", ""),
                 "performance": performance,
                 "training_date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                 "mlforge_version": "1.0.0"
             },
-            dataset_name = file.filename.replace(".csv",""),
-            model_name = best_model["model_name"],
-            evaluation = evaluation["best_model"],
+
+            dataset_name = file.filename.replace(".csv", ""),
+            model_name = model_name,
+            evaluation = model_eval,
             background_data = X_train[indices],
-            roc_curve=training_result["roc_curve"],
-            confusion_matrix = training_result["confusion_matrix"]
+
+            roc_curve = trained_model["roc_curve"],
+            confusion_matrix = trained_model["confusion_matrix"]
         )
 
     return {
