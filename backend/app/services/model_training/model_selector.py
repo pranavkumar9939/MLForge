@@ -16,6 +16,14 @@ MODEL_REGISTRY = {
             {
                 "name": "Random Forest",
                 "type": "Ensemble"
+            },
+            {
+                "name": "KNN",
+                "type": "Distance Based"
+            },
+            {
+                "name": "SVM",
+                "type": "Kernel Based"
             }
         ],
         
@@ -38,6 +46,22 @@ MODEL_REGISTRY = {
             {
                 "name": "Linear Regression",
                 "type": "Linear Model"
+            },
+            {
+                "name": "Decision Tree Regressor",
+                "type": "Tree Based"
+            },
+            {
+                "name": "Random Forest Regressor",
+                "type": "Ensemble"
+            },
+            {
+                "name": "KNN Regressor",
+                "type": "Distance Based"
+            },
+            {
+                "name": "SVR",
+                "type": "Kernel Based"
             }
         ],
                 
@@ -69,6 +93,14 @@ MODEL_REGISTRY = {
             {
                 "name": "Random Forest",
                 "type": "Ensemble"
+            },
+            {
+                "name": "KNN",
+                "type": "Distance Based"
+            },
+            {
+                "name": "SVM",
+                "type": "Kernel Based"
             }
         ],
 

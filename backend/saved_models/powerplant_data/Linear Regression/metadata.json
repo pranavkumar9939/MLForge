@@ -1,0 +1,11 @@
+{
+    "model_name": "Linear Regression",
+    "problem_type": "Regression",
+    "algorithm": "LinearRegression",
+    "target_column": "PE",
+    "feature_count": 4,
+    "dataset_name": "powerplant_data",
+    "performance": 0.9315,
+    "training_date": "2026-07-30 23:35:35",
+    "mlforge_version": "1.0.0"
+}

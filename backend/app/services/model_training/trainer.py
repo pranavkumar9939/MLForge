@@ -55,7 +55,19 @@ def train_model(
 
         model_name = model_info_item["name"]
 
-        model = create_model(model_name)
+        print(
+            "MODEL SELECTED:",
+            model_name,
+            "| Problem:",
+            problem_type
+        )
+
+        model = create_model(model_name, problem_type)
+
+        print(
+            "MODEL CREATED:",
+            type(model).__name__
+        )
 
         model.fit(X_train, y_train)
 
@@ -78,25 +90,30 @@ def train_model(
 
         print(label_encoder)
         print(type(label_encoder))
-        
-        roc_curve = generate_roc_curve(
-            model = model,
-            X_test = X_test,
-            y_test = y_test,
-            problem_type = problem_type,
-            class_names = label_encoder.classes_ if label_encoder else None
-        )
 
-        confusion_matrix = generate_confusion_matrix(
-            model = model,
-            X_test = X_test,
-            y_test = y_test,
-            class_names = (
-                label_encoder.classes_.tolist()
-                if label_encoder is not None
-                else None
+        roc_curve = None
+        confusion_matrix = None
+
+        if problem_type != "Regression":
+        
+            roc_curve = generate_roc_curve(
+                model = model,
+                X_test = X_test,
+                y_test = y_test,
+                problem_type = problem_type,
+                class_names = label_encoder.classes_ if label_encoder else None
             )
-        )
+
+            confusion_matrix = generate_confusion_matrix(
+                model = model,
+                X_test = X_test,
+                y_test = y_test,
+                class_names = (
+                    label_encoder.classes_.tolist()
+                    if label_encoder is not None
+                    else None
+                )
+            )
 
         print("\n========== CONFUSION MATRIX ==========")
         print(confusion_matrix)

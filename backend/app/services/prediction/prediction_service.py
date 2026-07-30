@@ -33,12 +33,20 @@ def predict_single_sample(
 
     if background_data is not None:
 
-        shap_explanation = generate_shap_explanation(
-            model = model,
-            input_data = input_data,
-            feature_names = feature_names,
-            background_data = background_data
-        )
+        try:
+
+            shap_explanation = generate_shap_explanation(
+                model = model,
+                input_data = input_data,
+                feature_names = feature_names,
+                background_data = background_data
+            )
+
+        except Exception as e:
+
+            print(f"SHAP not supported for {type(model).__name__}: {e}")
+
+            shap_explanation = None
 
     else:
         shap_explanation = []

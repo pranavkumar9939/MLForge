@@ -1,0 +1,31 @@
+{
+    "model_name": "Decision Tree Regressor",
+    "problem_type": "Regression",
+    "mae": 3.0147,
+    "mse": 20.0155,
+    "rmse": 4.4739,
+    "r2_score": 0.9301,
+    "r2_info": {
+        "status": "Excellent",
+        "color": "Green",
+        "explaination": "The model explains all variabilty in the target column."
+    },
+    "overall_assessment": {
+        "overall_score": 93.01,
+        "status": "Excellent",
+        "summary": "The regression model demonstrates excellent predictive performance.",
+        "recommendation": "The model is suitable for deployment after validation on unseen data."
+    },
+    "improvement_suggestions": [
+        {
+            "type": "Performance",
+            "title": "Excellent Regression Model",
+            "message": "The model explains most of the variance in the target variable and is suitable for prediction after validation on unseen data."
+        },
+        {
+            "type": "Recommendation",
+            "title": "Compare Multiple Algorithms",
+            "message": "Compare Linear Regression with random Forest Regressor, Gradient Boosting, XGBoost, or CatBoost to determine whether a better-performing model exists."
+        }
+    ]
+}

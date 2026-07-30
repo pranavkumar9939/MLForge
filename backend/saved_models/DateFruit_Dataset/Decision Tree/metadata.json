@@ -1,0 +1,11 @@
+{
+    "model_name": "Decision Tree",
+    "problem_type": "Multi-Class Classification",
+    "algorithm": "DecisionTreeClassifier",
+    "target_column": "Class",
+    "feature_count": 34,
+    "dataset_name": "DateFruit_Dataset",
+    "performance": 87.78,
+    "training_date": "2026-07-30 22:57:49",
+    "mlforge_version": "1.0.0"
+}
