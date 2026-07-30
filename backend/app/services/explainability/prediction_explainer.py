@@ -11,6 +11,15 @@ def explain_prediction(
 ):
 
     prediction = model.predict(input_data)[0]
+
+    if not hasattr(model, "classes_"):
+
+        return {
+            "prediction": float(prediction),
+            "confidence": None,
+            "top_contributing_features": []
+        }
+    
     prediction_index = list(model.classes_).index(prediction)
 
     # if label_encoder is not None:

@@ -14,6 +14,9 @@ def generate_confusion_matrix(
     if not hasattr(model, "predict"):
         return None
 
+    if not hasattr(model, "classes_"):
+        return None
+
     y_pred = model.predict(X_test)
 
     matrix = confusion_matrix(
