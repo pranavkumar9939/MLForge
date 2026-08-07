@@ -59,3 +59,13 @@ export async function getMetrics(
 
     return response.data;
 }
+
+
+export async function getSavedModels(){
+
+    const response = await axios.get(
+        `${API_URL}/models/`
+    );
+
+    return response.data;
+}
