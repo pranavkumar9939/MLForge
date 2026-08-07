@@ -13,7 +13,7 @@ def get_saved_models():
     return list_saved_models()
 
 
-@router.get("/{dataset_name}/{nodel_name}")
+@router.get("/{dataset_name}/{model_name}")
 def get_model(
     dataset_name: str,
     model_name: str

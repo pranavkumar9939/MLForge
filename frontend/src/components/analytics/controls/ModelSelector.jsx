@@ -16,7 +16,11 @@ export default function ModelSelector({
 
                 className="select-box"
                 value = {selectedModel}
-                onChange = {(e)=>onChange(e.target.value)}
+                // onChange = {(e)=>onChange(e.target.value)}
+                onChange={(e)=>{
+                    console.log("Selected:", e.target.value);
+                    onChange(e.target.value);
+                }}
 
             >
 

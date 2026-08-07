@@ -21,10 +21,10 @@ export default function DatasetSelector({
                 {datasets.map(dataset => (
 
                     <option 
-                        key = {dataset}
-                        value = {dataset}
+                        key = {dataset.dataset_name}
+                        value = {dataset.dataset_name}
                     >
-                        {dataset.replaceAll("_", " ")}
+                        {dataset.dataset_name.replaceAll("_", " ")}
                     </option>
 
                 ))}

@@ -8,6 +8,7 @@ import ControlPanel from "./controls/ControlPanel";
 import "./PerformanceDashboard.css";
 import { getDatasets } from "../../services/analyticsService";
 import { getMetrics } from "../../services/analyticsService";
+import { getSavedModels } from "../../services/analyticsService";
 
 
 export default function PerformanceDashboard(){
@@ -22,26 +23,29 @@ export default function PerformanceDashboard(){
     const [datasets, setDatasets] = useState([]);
     const [metrics, setMetrics] = useState(null);
 
-    const [models] = useState([
-        "Logistic Regression"
-    ]);
+    const [models, setModels] = useState([]);
 
     useEffect(() => {
 
-        // console.log("Datasets: ", data);
+        getSavedModels().then(data => {
 
-        getDatasets().then(data => {
-            setDatasets(data);
+            console.log(data);
 
-            if (data.length > 0){
-                setSelectedDataset(data[0]);
+            const datasetList = data.datasets || [];
+
+            setDatasets(datasetList);
+
+            if (datasetList.length > 0) {
+
+                setSelectedDataset(
+                    datasetList[0].dataset_name
+                );
+
             }
+
         });
 
-        
-        
-
-    }, []);
+    }, []); 
 
     useEffect(()=>{
 
@@ -70,23 +74,61 @@ export default function PerformanceDashboard(){
 
             console.log(data);
 
-            setFeatureImportance(
-                data.feature_importance
-            )
+            if (Array.isArray(data.feature_importance)) {
+
+                setFeatureImportance(
+                    data.feature_importance
+                );
+
+            } else {
+
+                setFeatureImportance([]);
+            }
         });
 
         getMetrics(
             selectedDataset,
             selectedModel
-        ).then(data => {
-            console.log("Metrics:", data);
-
+        )
+        .then(data => {
             setMetrics(data);
-
+        })
+        .catch(err => {
+            console.error(err);
         });
+
+        console.log(
+        "Dataset:",
+        selectedDataset,
+        "Model:",
+        selectedModel
+    );
 
 
     },[selectedDataset, selectedModel]);
+
+    useEffect(() => {
+
+        if (!selectedDataset) return;
+
+        const datasetInfo = datasets.find(
+            d => d.dataset_name === selectedDataset
+        );
+
+        if (!datasetInfo) return;
+
+        const modelNames =
+            datasetInfo.models.map(
+                m => m.model_name
+            );
+
+        setModels(modelNames);
+
+        if (!modelNames.includes(selectedModel)) {
+            setSelectedModel(modelNames[0]);
+        }
+
+    }, [selectedDataset, datasets]);
 
     return (
 
@@ -104,7 +146,10 @@ export default function PerformanceDashboard(){
                 selectedModel = {selectedModel}
 
                 onDatasetChange = {setSelectedDataset}
-                onModelChange = {setSelectedModel}
+                onModelChange={(model)=>{
+                    console.log("SELECTED MODEL:", model);
+                    setSelectedModel(model);
+                }}
 
             />
 
