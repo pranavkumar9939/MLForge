@@ -25,6 +25,18 @@ export default function ROCChart({ rocData }){
 
     if(!rocData) return null;
 
+    if(
+        !rocData ||
+        !rocData.curves
+    ){
+        return (
+            <div>
+                ROC Curve not available
+                for regression models.
+            </div>
+        );
+    }
+
     const curves = rocData.curves;
 
     const maxLength = Math.max(

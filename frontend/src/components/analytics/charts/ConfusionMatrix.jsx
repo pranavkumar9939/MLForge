@@ -4,6 +4,18 @@ export default function ConfusionMatrix({ matrix }) {
 
     if (!matrix) return <p>Loading Confusion Matrix...</p>;
 
+    if(
+        !matrix ||
+        !matrix.labels
+    ){
+        return (
+            <div>
+                Confusion Matrix not available
+                for regression models.
+            </div>
+        );
+    }
+
     const labels = matrix.labels;
     const values = matrix.matrix;
 
