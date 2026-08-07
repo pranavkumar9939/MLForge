@@ -1,0 +1,27 @@
+.leaderboard-container{
+
+    margin-top:40px;
+    background:white;
+    padding:20px;
+    border-radius:12px;
+}
+
+.leaderboard-table{
+
+    width:100%;
+    border-collapse:collapse;
+}
+
+.leaderboard-table th,
+.leaderboard-table td{
+
+    padding:12px;
+    text-align:center;
+    border-bottom:1px solid #ddd;
+}
+
+.winner-row{
+
+    background:#fef9c3;
+    font-weight:600;
+}

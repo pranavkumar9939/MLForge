@@ -9,7 +9,8 @@ import "./PerformanceDashboard.css";
 import { getDatasets } from "../../services/analyticsService";
 import { getMetrics } from "../../services/analyticsService";
 import { getSavedModels } from "../../services/analyticsService";
-
+import Leaderboard from "./leaderboard/Leaderboard";
+import { getLeaderboard } from "../../services/leaderboardService";
 
 export default function PerformanceDashboard(){
 
@@ -24,6 +25,7 @@ export default function PerformanceDashboard(){
     const [metrics, setMetrics] = useState(null);
 
     const [models, setModels] = useState([]);
+    const [leaderboard, setLeaderboard] = useState(null);
 
     useEffect(() => {
 
@@ -104,6 +106,14 @@ export default function PerformanceDashboard(){
         selectedModel
     );
 
+    getLeaderboard(
+        selectedDataset
+    ).then(data => {
+
+        setLeaderboard(data);
+
+    });
+
 
     },[selectedDataset, selectedModel]);
 
@@ -155,23 +165,27 @@ export default function PerformanceDashboard(){
 
             <MetricsSection metrics = {metrics}/>
 
-            <h2 className="section-title">📈 ROC Curve</h2>
+            {metrics?.problem_type !== "Regression" && (
+                <>
+                    <h2 className="section-title">📈 ROC Curve</h2>
 
-            <div className="chart-card">
+                    <div className="chart-card">
+                        <ROCChart rocData={roc} />
+                    </div>
+                </>
+            )}
 
-                <ROCChart rocData={roc} />
+            {metrics?.problem_type !== "Regression" && (
+                <>
+                    <h2 className="section-title">
+                        📊 Confusion Matrix
+                    </h2>
 
-            </div>
-
-            <h2 className="section-title">
-                📊 Confusion Matrix
-            </h2>
-
-            <div className="chart-card">
-
-                <ConfusionMatrix matrix={matrix} />
-
-            </div>
+                    <div className="chart-card">
+                        <ConfusionMatrix matrix={matrix} />
+                    </div>
+                </>
+            )}
 
             <h2 className="section-title">
                 ⭐ Feature Importance
@@ -183,6 +197,14 @@ export default function PerformanceDashboard(){
                     data = {featureImportance}
                 />
             </div>
+
+            <h2 className="section-title">
+                🏆 Model Comparison
+            </h2>
+
+            <Leaderboard
+                data = {leaderboard}
+            />
 
         </div>
     );
