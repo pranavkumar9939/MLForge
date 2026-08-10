@@ -9,6 +9,8 @@ from app.services.prediction.prediction_service import predict_single_sample
 from app.services.evaluation.roc_curve_service import generate_roc_curve
 from app.services.evaluation.confusion_matrix_service import generate_confusion_matrix
 
+from app.services.hyperparameter.tuner import tune_model
+
 
 DEFAULT_TEST_SIZE = 0.2
 DEFAULT_RANDOM_STATE = 42
@@ -71,6 +73,16 @@ def train_model(
 
         model.fit(X_train, y_train)
 
+        tuning_result = tune_model(
+            model = model,
+            model_name = model_name,
+            X_train = X_train,
+            y_train = y_train,
+            problem_type = problem_type
+        )
+
+        model = tuning_result["model"]
+
         cv_result = perform_cross_validation(
             model,
             X,
@@ -128,7 +140,10 @@ def train_model(
             "cross_validation": cv_result,
             "sample_prediction": sample_prediction,
             "roc_curve": roc_curve,
-            "confusion_matrix": confusion_matrix
+            "confusion_matrix": confusion_matrix,
+            "tuned": tuning_result["tuned"],
+            "best_params": tuning_result.get("best_params", {}),
+            "best_cv_score": tuning_result.get("best_score", None),
         })
 
 
