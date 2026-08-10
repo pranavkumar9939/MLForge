@@ -26,7 +26,11 @@ def save_model(
         evaluation,
         roc_curve,
         confusion_matrix,
-        background_data
+        background_data,
+
+        tuned = False,
+        best_params = None,
+        best_cv_score = None
 ):
 
     dataset_folder = os.path.join(MODEL_DIR, dataset_name)
@@ -46,6 +50,7 @@ def save_model(
     background_data_path = os.path.join(model_folder, "background_data.pkl")
     roc_curve_path = os.path.join(model_folder, "roc_curve.json")
     confusion_matrix_path = os.path.join(model_folder, "confusion_matrix.json")
+    hyperparameter_tuning_path = os.path.join(model_folder, "hyperparameter_tuning.json")
 
     joblib.dump(model, model_path)
     joblib.dump(pipeline, pipeline_path)
@@ -68,4 +73,13 @@ def save_model(
 
     with open(confusion_matrix_path, "w") as f:
         json.dump(confusion_matrix, f)
+
+    tuning_data = {
+        "tuned": tuned,
+        "best_params": best_params or {},
+        "best_cv_score": best_cv_score
+    }
+
+    with open(hyperparameter_tuning_path, "w") as f:
+        json.dump(tuning_data, f, indent = 4)
 

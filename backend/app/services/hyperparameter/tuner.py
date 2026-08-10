@@ -13,9 +13,12 @@ def tune_model(
 
     if model_name not in PARAMETER_GRIDS:
 
+        model.fit(X_train, y_train)
+
         return {
             "model": model,
             "best_params": {},
+            "best_score": None,
             "tuned": False
         }
 

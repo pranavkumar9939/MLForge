@@ -71,7 +71,7 @@ def train_model(
             type(model).__name__
         )
 
-        model.fit(X_train, y_train)
+        # model.fit(X_train, y_train)
 
         tuning_result = tune_model(
             model = model,
