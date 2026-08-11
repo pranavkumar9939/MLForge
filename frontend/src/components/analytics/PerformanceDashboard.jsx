@@ -11,6 +11,8 @@ import { getMetrics } from "../../services/analyticsService";
 import { getSavedModels } from "../../services/analyticsService";
 import Leaderboard from "./leaderboard/Leaderboard";
 import { getLeaderboard } from "../../services/leaderboardService";
+import TuningCard from "./cards/Tuningcard";
+import { getTuningResults } from "../../services/tuningService";
 
 export default function PerformanceDashboard(){
 
@@ -26,6 +28,8 @@ export default function PerformanceDashboard(){
 
     const [models, setModels] = useState([]);
     const [leaderboard, setLeaderboard] = useState(null);
+
+    const [tuningResults, setTuningResults] = useState(null);
 
     useEffect(() => {
 
@@ -112,6 +116,16 @@ export default function PerformanceDashboard(){
 
         setLeaderboard(data);
 
+    });
+
+    getTuningResults(
+        selectedDataset,
+        selectedModel
+    ).then(data => {
+        console.log("Tuning Data:", data);
+        setTuningResults(data);
+    }).catch(() => {
+        setTuningResults(null);
     });
 
 
@@ -204,6 +218,14 @@ export default function PerformanceDashboard(){
 
             <Leaderboard
                 data = {leaderboard}
+            />
+
+            <h2 className = "section-title">
+                ⚙ Hyperparameter Optimization 
+            </h2>
+
+            <TuningCard
+                data = {tuningResults}
             />
 
         </div>

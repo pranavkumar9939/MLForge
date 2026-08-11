@@ -1,0 +1,40 @@
+.tuning-card{
+
+    background: white;
+
+    padding: 20px;
+
+    border-radius: 12px;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.cv-score{
+
+    display: flex;
+
+    justify-content: space-between;
+
+    margin: 15px 0;
+
+    font-weight: 600;
+}
+
+.cv-score span{
+
+    color: #16A34A;
+
+    font-size: 20px;
+}
+
+.params-table{
+
+    width: 100px;
+}
+
+.params-table td{
+
+    padding: 8px;
+
+    border-bottom: 1px solid #eee;
+}
