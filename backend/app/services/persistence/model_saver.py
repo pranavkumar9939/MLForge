@@ -2,6 +2,9 @@ import joblib
 import os
 import json
 
+from app.services.model_registry.version_service import generate_version
+from app.services.model_registry.registry_service import register_model_version
+
 
 BASE_DIR = os.path.dirname(
     os.path.dirname(
@@ -33,8 +36,13 @@ def save_model(
         best_cv_score = None
 ):
 
+    version = generate_version(
+        dataset_name,
+        model_name
+    )
+
     dataset_folder = os.path.join(MODEL_DIR, dataset_name)
-    model_folder = os.path.join(dataset_folder, model_name)
+    model_folder = os.path.join(dataset_folder, model_name, version)
 
     os.makedirs(model_folder, exist_ok = True)
     
@@ -82,4 +90,11 @@ def save_model(
 
     with open(hyperparameter_tuning_path, "w") as f:
         json.dump(tuning_data, f, indent = 4)
+
+    register_model_version(
+        dataset_name = dataset_name,
+        model_name = model_name,
+        version = version,
+        score = evaluation["overall_assessment"]["overall_score"]
+    )
 

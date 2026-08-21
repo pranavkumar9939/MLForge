@@ -15,11 +15,19 @@ MODEL_DIR = os.path.join(BASE_DIR, "saved_models")
 
 def load_saved_model(
         dataset_name,
-        model_name
+        model_name,
+        version = None
 ):
 
     dataset_folder = os.path.join(MODEL_DIR, dataset_name)
-    model_folder = os.path.join(dataset_folder, model_name)
+
+    if version is not None:
+
+        model_folder = os.path.join(dataset_folder, model_name,version)
+
+    else:
+
+        model_folder = get_latest_version_folder(dataset_folder, model_name)
 
     if not os.path.exists(model_folder):
         raise FileNotFoundError(
@@ -35,6 +43,7 @@ def load_saved_model(
     roc_curve_path = os.path.join(model_folder, "roc_curve.json")
     confusion_matrix_path = os.path.join(model_folder, "confusion_matrix.json")
     evaluation_path = os.path.join(model_folder, "evaluation.json")
+    hyperparameter_tuning_path = os.path.join(model_folder, "hyperparameter_tuning.json")
 
     model = joblib.load(model_path)
     pipeline = joblib.load(pipeline_path)
@@ -63,6 +72,9 @@ def load_saved_model(
     if os.path.exists(background_data_path):
         background_data = joblib.load(background_data_path)
 
+    with open(hyperparameter_tuning_path, "r") as f:
+        hyperparameter_tuning = json.load(f)
+
 
     return {
         "model": model,
@@ -73,5 +85,26 @@ def load_saved_model(
         "background_data": background_data,
         "roc_curve": roc_curve,
         "confusion_matrix": confusion_matrix,
-        "evaluation": evaluation
+        "evaluation": evaluation,
+        "hyperparameter_tuning": hyperparameter_tuning
     }
+
+
+def get_latest_version_folder(model_folder):
+
+    registry_path = os.path.join(model_folder, "registry.json")
+
+    if not os.path.exists(registry_path):
+
+        return model_folder
+
+    with open(registry_path, "r") as f:
+
+        registry = json.load(f)
+
+    latest_version = registry["versions"][-1]["version"]
+
+    return os.path.join(
+        model_folder,
+        latest_version
+    )
