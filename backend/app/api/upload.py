@@ -15,6 +15,8 @@ from app.services.model_training.evaluator import evaluate_model
 
 from app.services.persistence.model_saver import save_model
 
+from app.services.model_registry.registry_service import load_registry, register_model_version
+
 router = APIRouter(prefix="/upload", tags=["Upload"])
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -63,6 +65,18 @@ async def upload_dataset(file: UploadFile = File(...)):
     for trained_model in training_result["trained_models"]:
 
         model_name = trained_model["model_name"]
+
+        dataset_name = file.filename.replace(".csv", "")
+
+        registry = load_registry(
+            dataset_name,
+            model_name
+        )
+
+        existing_versions = registry["versions"]
+
+        version_number = len(existing_versions) + 1
+        version = f"v{version_number}"
 
         model_eval = None
 

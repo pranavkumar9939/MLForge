@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 
 from app.services.model_registry.registry_service import get_model_versions, set_production_model
 
@@ -13,10 +13,16 @@ def versions(
     model_name: str
 ):
 
-    return get_model_versions(
-        dataset_name,
-        model_name
-    )
+    try:
+
+        return get_model_versions(dataset_name, model_name)
+
+    except FileNotFoundError as e:
+
+        raise HTTPException(
+            status_code = 404,
+            detail = str(e)
+        )
 
 @router.post(
     "/{dataset_name}/{model_name}/{version}"
@@ -27,8 +33,17 @@ def make_production(
     version: str
 ):
 
-    return set_production_model(
-        dataset_name,
-        model_name,
-        version
-    )
+    try:
+
+        return set_production_model(
+            dataset_name,
+            model_name,
+            version
+        )
+
+    except (FileNotFoundError, ValueError) as e:
+
+        raise HTTPException(
+            status_code = 404,
+            detail = str(e)
+        )

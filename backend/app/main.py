@@ -34,6 +34,8 @@ from app.api.datasets import router as datasets_router
 from app.api.metrics import router as metrics_router
 from app.api.leaderboard import router as leaderboard_router
 from app.api.tuning import router as tuning_router
+from app.api.model_registry import router as registry_router
+
 
 
 app.include_router(router)
@@ -48,3 +50,4 @@ app.include_router(datasets_router)
 app.include_router(metrics_router)
 app.include_router(leaderboard_router)
 app.include_router(tuning_router)
+app.include_router(registry_router)

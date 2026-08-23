@@ -63,7 +63,6 @@ def save_registry(
             indent = 4
         )
 
-
 def register_model_version(
     dataset_name,
     model_name,
@@ -76,12 +75,34 @@ def register_model_version(
         model_name
     )
 
-    registry["versions"].append({
+    if "versions" not in registry:
+        registry["versions"] = []
 
-        "version": version,
-        "score": score
-    })
+    if "production" not in registry:
+        registry["production"] = None
 
+    existing_versions = []
+
+    for item in registry["versions"]:
+
+        if isinstance(item, dict):
+
+            existing_versions.append(
+                item.get("version")
+            )
+
+        elif isinstance(item, str):
+
+            existing_versions.append(item)
+
+    if version not in existing_versions:
+
+        registry["versions"].append({
+            "version": version,
+            "score": score
+        })
+
+    # First model version becomes production
     if registry["production"] is None:
 
         registry["production"] = version
@@ -91,6 +112,8 @@ def register_model_version(
         model_name,
         registry
     )
+
+    return registry
 
 
 
@@ -116,14 +139,32 @@ def set_production_model(
         model_name
     )
 
-    versions = [
-        v["version"] for v in registry["versions"]
-    ]
+    versions = registry.get("versions", [])
 
-    if version not in versions:
+    found = False
+
+    for item in versions:
+
+        # New registry format
+        if isinstance(item, dict):
+
+            if item.get("version") == version:
+                found = True
+                break
+
+        # Old registry format
+        elif isinstance(item, str):
+
+            if item == version:
+                found = True
+                break
+
+    if not found:
 
         raise ValueError(
-            f"{version} not found"
+            f"Version '{version}' not found "
+            f"for dataset '{dataset_name}' "
+            f"and model '{model_name}'"
         )
 
     registry["production"] = version
@@ -134,4 +175,10 @@ def set_production_model(
         registry
     )
 
-    return registry
+    return {
+        "message": "Production model updated successfully",
+        "dataset_name": dataset_name,
+        "model_name": model_name,
+        "production": version,
+        "registry": registry
+    }
