@@ -41,6 +41,8 @@ def save_model(
         model_name
     )
 
+    metadata["version"] = version
+
     dataset_folder = os.path.join(MODEL_DIR, dataset_name)
     model_folder = os.path.join(dataset_folder, model_name, version)
 

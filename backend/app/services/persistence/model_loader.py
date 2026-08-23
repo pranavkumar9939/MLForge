@@ -21,6 +21,13 @@ def load_saved_model(
 
     dataset_folder = os.path.join(MODEL_DIR, dataset_name)
 
+    if version == "production":
+
+        version = get_production_version(
+            dataset_name,
+            model_name
+        )
+
     if version is not None:
 
         model_folder = os.path.join(dataset_folder, model_name,version)
@@ -72,6 +79,8 @@ def load_saved_model(
     if os.path.exists(background_data_path):
         background_data = joblib.load(background_data_path)
 
+    hyperparameter_tuning = {}
+
     with open(hyperparameter_tuning_path, "r") as f:
         hyperparameter_tuning = json.load(f)
 
@@ -86,21 +95,39 @@ def load_saved_model(
         "roc_curve": roc_curve,
         "confusion_matrix": confusion_matrix,
         "evaluation": evaluation,
-        "hyperparameter_tuning": hyperparameter_tuning
+        "hyperparameter_tuning": hyperparameter_tuning,
+        "version": version
     }
 
 
-def get_latest_version_folder(model_folder):
+def get_latest_version_folder(
+    dataset_folder,
+    model_name
+):
+
+    model_folder = os.path.join(
+        dataset_folder,
+        model_name
+    )
 
     registry_path = os.path.join(model_folder, "registry.json")
 
     if not os.path.exists(registry_path):
 
-        return model_folder
+        raise FileNotFoundError(
+            f"Registry not found for "
+            f"{model_name}"
+        )
 
     with open(registry_path, "r") as f:
 
         registry = json.load(f)
+
+    if not registry["versions"]:
+        raise FileNotFoundError(
+            f"No model versions found for "
+            f"{model_name}"
+        )
 
     latest_version = registry["versions"][-1]["version"]
 
@@ -108,3 +135,40 @@ def get_latest_version_folder(model_folder):
         model_folder,
         latest_version
     )
+
+
+def get_production_version(
+    dataset_name,
+    model_name
+):
+
+    model_folder = os.path.join(
+        MODEL_DIR,
+        dataset_name,
+        model_name
+    )
+
+    registry_path = os.path.join(
+        model_folder,
+        "registry.json"
+    )
+
+    if not os.path.exists(registry_path):
+        raise FileNotFoundError(
+            f"Registry not found for "
+            f"{dataset_name}/{model_name}"
+        )
+
+    with open(registry_path, "r") as f:
+        registry = json.load(f)
+
+    production_version = registry.get("production")
+
+    if production_version is None:
+
+        raise FileNotFoundError(
+            f"No production model configured "
+            f"for {dataset_name}/{model_name}"
+        )
+
+    return production_version

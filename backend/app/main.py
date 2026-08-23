@@ -35,7 +35,7 @@ from app.api.metrics import router as metrics_router
 from app.api.leaderboard import router as leaderboard_router
 from app.api.tuning import router as tuning_router
 from app.api.model_registry import router as registry_router
-
+from app.api.prediction_history import router as prediction_history_router
 
 
 app.include_router(router)
@@ -51,3 +51,4 @@ app.include_router(metrics_router)
 app.include_router(leaderboard_router)
 app.include_router(tuning_router)
 app.include_router(registry_router)
+app.include_router(prediction_history_router)
