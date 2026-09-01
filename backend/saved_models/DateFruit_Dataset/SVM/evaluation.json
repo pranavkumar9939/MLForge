@@ -1,0 +1,184 @@
+{
+    "model_name": "SVM",
+    "problem_type": "Multi-Class Classification",
+    "accuracy": {
+        "metric": "Accuracy",
+        "value": 95.56,
+        "status": "Excellent",
+        "color": "Green",
+        "explanation": "The model correctlty predicted 95.56% of all samples.This is considered excellent performance."
+    },
+    "precision": {
+        "metric": "Precision",
+        "value": 95.92,
+        "status": "Excellent",
+        "color": "Green",
+        "explanation": "When the model predicts a positive class, it is correct 95.92% of the time.This is considered excellent performance."
+    },
+    "recall": {
+        "metric": "Recall",
+        "value": 95.56,
+        "status": "Excellent",
+        "color": "Green",
+        "explanation": "The model successfully identified 95.56% of the actual positive samples.This is considered excellent performance."
+    },
+    "f1_score": {
+        "metric": "F1 Score",
+        "value": 95.65,
+        "status": "Excellent",
+        "color": "Green",
+        "explanation": "The balance between Precision and Recall is 95.65%This is considered excellent performance."
+    },
+    "confusion_matrix": [
+        [
+            11,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            18,
+            1,
+            0,
+            0,
+            0,
+            1
+        ],
+        [
+            0,
+            3,
+            47,
+            0,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            0,
+            10,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            0,
+            0,
+            35,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            0,
+            0,
+            0,
+            33,
+            0
+        ],
+        [
+            0,
+            2,
+            0,
+            0,
+            0,
+            0,
+            18
+        ]
+    ],
+    "classification_report": {
+        "BERHI": {
+            "precision": 1.0,
+            "recall": 0.9166666666666666,
+            "f1-score": 0.9565217391304348,
+            "support": 12.0
+        },
+        "DEGLET": {
+            "precision": 0.782608695652174,
+            "recall": 0.9,
+            "f1-score": 0.8372093023255814,
+            "support": 20.0
+        },
+        "DOKOL": {
+            "precision": 0.9791666666666666,
+            "recall": 0.94,
+            "f1-score": 0.9591836734693877,
+            "support": 50.0
+        },
+        "IRAQI": {
+            "precision": 0.9090909090909091,
+            "recall": 1.0,
+            "f1-score": 0.9523809523809523,
+            "support": 10.0
+        },
+        "ROTANA": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 35.0
+        },
+        "SAFAVI": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 33.0
+        },
+        "SOGAY": {
+            "precision": 0.9473684210526315,
+            "recall": 0.9,
+            "f1-score": 0.9230769230769231,
+            "support": 20.0
+        },
+        "accuracy": 0.9555555555555556,
+        "macro avg": {
+            "precision": 0.9454620989231974,
+            "recall": 0.950952380952381,
+            "f1-score": 0.9469103700547542,
+            "support": 180.0
+        },
+        "weighted avg": {
+            "precision": 0.9591599153241029,
+            "recall": 0.9555555555555556,
+            "f1-score": 0.9564832143049677,
+            "support": 180.0
+        }
+    },
+    "summary": {
+        "total_predictions": 180,
+        "correct_predictions": 172
+    },
+    "overall_assessment": {
+        "overall_score": 95.67,
+        "status": "Excellent",
+        "summary": "The model demonstrates excellent predictive performance across all evaluation metrics",
+        "recommendation": "The model is suitable for deployment after validation on unseen data."
+    },
+    "improvement_suggestions": [
+        {
+            "type": "Performance",
+            "priority": "Low",
+            "title": "Excellent Model Performance",
+            "message": "The model achieved excellent accuracy and is suitable for prediction after validation on unseen data."
+        },
+        {
+            "type": "Insight",
+            "priority": "Low",
+            "title": "Balanced Precision and Recall",
+            "message": "The model maintains a healthy balance between precision and recall, indicating consistent prediction quality."
+        },
+        {
+            "type": "Recommendation",
+            "priority": "Low",
+            "title": "Validate Before Deployment",
+            "message": "The current model performs very well. Validate it using cross-validation or an independent test dataset before deploying it in production."
+        }
+    ]
+}

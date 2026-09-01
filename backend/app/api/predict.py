@@ -46,6 +46,8 @@ def get_prediction(
         label_encoder = artifacts["label_encoder"]
     )
 
+    version = artifacts["metadata"].get("version","unknown")
+
     history_record = save_prediction_history(
         dataset_name=dataset_name,
         model_name=model_name,
@@ -62,7 +64,7 @@ def get_prediction(
 
         "model_name": model_name,
 
-        "version": artifacts["version"],
+        "version": version,
 
         "prediction": result["prediction"],
 

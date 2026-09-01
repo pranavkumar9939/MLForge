@@ -1,0 +1,12 @@
+{
+    "model_name": "KNN",
+    "problem_type": "Multi-Class Classification",
+    "algorithm": "KNeighborsClassifier",
+    "target_column": "Class",
+    "feature_count": 34,
+    "dataset_name": "DateFruit_Dataset",
+    "performance": 91.11,
+    "training_date": "2026-08-25 13:34:48",
+    "mlforge_version": "1.0.0",
+    "version": "v3"
+}

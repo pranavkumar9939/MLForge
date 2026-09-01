@@ -1,0 +1,8 @@
+{
+    "tuned": true,
+    "best_params": {
+        "kernel": "rbf",
+        "C": 10
+    },
+    "best_cv_score": 0.9427557045640365
+}

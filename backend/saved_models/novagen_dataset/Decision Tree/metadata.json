@@ -1,0 +1,11 @@
+{
+    "model_name": "Decision Tree",
+    "problem_type": "Binary Classification",
+    "algorithm": "DecisionTreeClassifier",
+    "target_column": "Target",
+    "feature_count": 17,
+    "dataset_name": "novagen_dataset",
+    "performance": 90.37,
+    "training_date": "2026-07-30 23:02:23",
+    "mlforge_version": "1.0.0"
+}

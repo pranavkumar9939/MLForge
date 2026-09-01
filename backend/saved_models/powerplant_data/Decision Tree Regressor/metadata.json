@@ -1,0 +1,11 @@
+{
+    "model_name": "Decision Tree Regressor",
+    "problem_type": "Regression",
+    "algorithm": "DecisionTreeRegressor",
+    "target_column": "PE",
+    "feature_count": 4,
+    "dataset_name": "powerplant_data",
+    "performance": 0.9398,
+    "training_date": "2026-08-10 21:25:38",
+    "mlforge_version": "1.0.0"
+}

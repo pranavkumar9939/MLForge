@@ -1,0 +1,8 @@
+{
+    "tuned": true,
+    "best_params": {
+        "min_samples_split": 5,
+        "max_depth": 10
+    },
+    "best_cv_score": 0.8217166434216644
+}

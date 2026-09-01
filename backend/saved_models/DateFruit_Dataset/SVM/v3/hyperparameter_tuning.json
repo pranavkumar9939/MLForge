@@ -1,0 +1,9 @@
+{
+    "tuned": true,
+    "best_params": {
+        "kernel": "linear",
+        "gamma": "scale",
+        "C": 100
+    },
+    "best_cv_score": 0.9080950720595071
+}

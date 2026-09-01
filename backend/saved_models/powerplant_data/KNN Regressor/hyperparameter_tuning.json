@@ -1,0 +1,7 @@
+{
+    "tuned": true,
+    "best_params": {
+        "n_neighbors": 5
+    },
+    "best_cv_score": 0.9434088424415364
+}

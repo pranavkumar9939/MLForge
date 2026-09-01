@@ -1,0 +1,7 @@
+{
+    "tuned": true,
+    "best_params": {
+        "max_depth": 10
+    },
+    "best_cv_score": 0.9346383495476512
+}

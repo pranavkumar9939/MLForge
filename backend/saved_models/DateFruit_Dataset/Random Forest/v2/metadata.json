@@ -1,0 +1,12 @@
+{
+    "model_name": "Random Forest",
+    "problem_type": "Multi-Class Classification",
+    "algorithm": "RandomForestClassifier",
+    "target_column": "Class",
+    "feature_count": 34,
+    "dataset_name": "DateFruit_Dataset",
+    "performance": 91.11,
+    "training_date": "2026-08-24 10:03:13",
+    "mlforge_version": "1.0.0",
+    "version": "v2"
+}

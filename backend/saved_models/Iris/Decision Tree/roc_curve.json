@@ -1,0 +1,47 @@
+{
+    "type": "multiclass",
+    "curves": [
+        {
+            "class": "Iris-setosa",
+            "auc": 1.0,
+            "fpr": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "tpr": [
+                0.0,
+                1.0,
+                1.0
+            ]
+        },
+        {
+            "class": "Iris-versicolor",
+            "auc": 1.0,
+            "fpr": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "tpr": [
+                0.0,
+                1.0,
+                1.0
+            ]
+        },
+        {
+            "class": "Iris-virginica",
+            "auc": 1.0,
+            "fpr": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "tpr": [
+                0.0,
+                1.0,
+                1.0
+            ]
+        }
+    ]
+}

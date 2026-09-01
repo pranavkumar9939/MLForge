@@ -1,0 +1,17 @@
+{
+    "production": "v1",
+    "versions": [
+        {
+            "version": "v1",
+            "score": 87.54
+        },
+        {
+            "version": "v2",
+            "score": 87.54
+        },
+        {
+            "version": "v3",
+            "score": 87.54
+        }
+    ]
+}

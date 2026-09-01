@@ -1,0 +1,8 @@
+{
+    "tuned": true,
+    "best_params": {
+        "n_estimators": 300,
+        "max_depth": null
+    },
+    "best_cv_score": 0.9565114568532299
+}

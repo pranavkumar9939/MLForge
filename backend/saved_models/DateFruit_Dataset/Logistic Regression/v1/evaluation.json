@@ -1,0 +1,184 @@
+{
+    "model_name": "Logistic Regression",
+    "problem_type": "Multi-Class Classification",
+    "accuracy": {
+        "metric": "Accuracy",
+        "value": 96.11,
+        "status": "Excellent",
+        "color": "Green",
+        "explanation": "The model correctlty predicted 96.11% of all samples.This is considered excellent performance."
+    },
+    "precision": {
+        "metric": "Precision",
+        "value": 96.5,
+        "status": "Excellent",
+        "color": "Green",
+        "explanation": "When the model predicts a positive class, it is correct 96.5% of the time.This is considered excellent performance."
+    },
+    "recall": {
+        "metric": "Recall",
+        "value": 96.11,
+        "status": "Excellent",
+        "color": "Green",
+        "explanation": "The model successfully identified 96.11% of the actual positive samples.This is considered excellent performance."
+    },
+    "f1_score": {
+        "metric": "F1 Score",
+        "value": 96.16,
+        "status": "Excellent",
+        "color": "Green",
+        "explanation": "The balance between Precision and Recall is 96.16%This is considered excellent performance."
+    },
+    "confusion_matrix": [
+        [
+            11,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            17,
+            1,
+            0,
+            0,
+            0,
+            2
+        ],
+        [
+            0,
+            0,
+            50,
+            0,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            0,
+            10,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            0,
+            2,
+            33,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            0,
+            0,
+            0,
+            33,
+            0
+        ],
+        [
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            19
+        ]
+    ],
+    "classification_report": {
+        "BERHI": {
+            "precision": 1.0,
+            "recall": 0.9166666666666666,
+            "f1-score": 0.9565217391304348,
+            "support": 12.0
+        },
+        "DEGLET": {
+            "precision": 0.9444444444444444,
+            "recall": 0.85,
+            "f1-score": 0.8947368421052632,
+            "support": 20.0
+        },
+        "DOKOL": {
+            "precision": 0.9803921568627451,
+            "recall": 1.0,
+            "f1-score": 0.9900990099009901,
+            "support": 50.0
+        },
+        "IRAQI": {
+            "precision": 0.7692307692307693,
+            "recall": 1.0,
+            "f1-score": 0.8695652173913043,
+            "support": 10.0
+        },
+        "ROTANA": {
+            "precision": 1.0,
+            "recall": 0.9428571428571428,
+            "f1-score": 0.9705882352941176,
+            "support": 35.0
+        },
+        "SAFAVI": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 33.0
+        },
+        "SOGAY": {
+            "precision": 0.9047619047619048,
+            "recall": 0.95,
+            "f1-score": 0.926829268292683,
+            "support": 20.0
+        },
+        "accuracy": 0.9611111111111111,
+        "macro avg": {
+            "precision": 0.942689896471409,
+            "recall": 0.9513605442176871,
+            "f1-score": 0.944048616016399,
+            "support": 180.0
+        },
+        "weighted avg": {
+            "precision": 0.9649780139976218,
+            "recall": 0.9611111111111111,
+            "f1-score": 0.9615598554543379,
+            "support": 180.0
+        }
+    },
+    "summary": {
+        "total_predictions": 180,
+        "correct_predictions": 173
+    },
+    "overall_assessment": {
+        "overall_score": 96.22,
+        "status": "Excellent",
+        "summary": "The model demonstrates excellent predictive performance across all evaluation metrics",
+        "recommendation": "The model is suitable for deployment after validation on unseen data."
+    },
+    "improvement_suggestions": [
+        {
+            "type": "Performance",
+            "priority": "Low",
+            "title": "Excellent Model Performance",
+            "message": "The model achieved excellent accuracy and is suitable for prediction after validation on unseen data."
+        },
+        {
+            "type": "Insight",
+            "priority": "Low",
+            "title": "Balanced Precision and Recall",
+            "message": "The model maintains a healthy balance between precision and recall, indicating consistent prediction quality."
+        },
+        {
+            "type": "Recommendation",
+            "priority": "Low",
+            "title": "Validate Before Deployment",
+            "message": "The current model performs very well. Validate it using cross-validation or an independent test dataset before deploying it in production."
+        }
+    ]
+}

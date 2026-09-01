@@ -1,52 +1,132 @@
-from fastapi import APIRouter
-
-from app.services.model_registry.registry_service import get_model_versions
-from app.services.prediction.prediction_history_service import load_prediction_history
-
-router = APIRouter(
-    prefix="/prediction-history",
-    tags = ["Prediction History"]
+from fastapi import (
+    APIRouter,
+    HTTPException,
+    Query
 )
 
-@router.get("/{dataset_name}/{model_name}")
+from app.services.prediction.prediction_history_service import (
+
+    get_prediction_history_paginated,
+
+    get_prediction_by_id,
+
+    get_prediction_statistics
+)
+
+
+router = APIRouter(
+
+    prefix="/prediction-history",
+
+    tags=["Prediction History"]
+)
+
+
+# ==========================================
+# GET PREDICTION HISTORY
+# ==========================================
+
+@router.get(
+    "/{dataset_name}/{model_name}/{version}"
+)
 def get_history(
+
     dataset_name: str,
-    model_name: str
+
+    model_name: str,
+
+    version: str,
+
+    limit: int = Query(
+        default=20,
+        ge=1,
+        le=100
+    ),
+
+    offset: int = Query(
+        default=0,
+        ge=0
+    )
 ):
 
-    registry = get_model_versions(
-        dataset_name,
-        model_name
-    )
+    return get_prediction_history_paginated(
 
-    production_version = registry.get(
-        "production"
-    )
-
-    if production_version is None:
-
-        return {
-            "dataset_name": dataset_name,
-            "model_name": model_name,
-            "version": None,
-            "history": []
-        }
-
-    history = load_prediction_history(
         dataset_name=dataset_name,
+
         model_name=model_name,
-        version=production_version
+
+        version=version,
+
+        limit=limit,
+
+        offset=offset
     )
 
-    return {
 
-        "dataset_name": dataset_name,
+# ==========================================
+# GET PREDICTION STATISTICS
+# ==========================================
 
-        "model_name": model_name,
+@router.get(
+    "/{dataset_name}/{model_name}/{version}/stats"
+)
+def get_statistics(
 
-        "version": production_version,
+    dataset_name: str,
 
-        "count": len(history),
+    model_name: str,
 
-        "history": history
-    }
+    version: str
+):
+
+    return get_prediction_statistics(
+
+        dataset_name=dataset_name,
+
+        model_name=model_name,
+
+        version=version
+    )
+
+
+# ==========================================
+# GET SINGLE PREDICTION
+# ==========================================
+
+@router.get(
+    "/{dataset_name}/{model_name}/{version}/prediction/{prediction_id}"
+)
+def get_single_prediction(
+
+    dataset_name: str,
+
+    model_name: str,
+
+    version: str,
+
+    prediction_id: int
+):
+
+    prediction = get_prediction_by_id(
+
+        dataset_name=dataset_name,
+
+        model_name=model_name,
+
+        version=version,
+
+        prediction_id=prediction_id
+    )
+
+
+    if prediction is None:
+
+        raise HTTPException(
+
+            status_code=404,
+
+            detail="Prediction not found"
+        )
+
+
+    return prediction
