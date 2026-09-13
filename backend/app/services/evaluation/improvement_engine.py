@@ -195,10 +195,10 @@ def generate_regression_improvement_suggestions(results):
         suggestions.append({
             "type": "Performance",
             "title": "Good Model Performance",
-            "message": {
+            "message": (
                 "The model predicts the target variaable well, "
                 "although further optimization improve accuracy."
-            }
+            )
         })
 
     # Fair model

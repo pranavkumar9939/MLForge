@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.venv/
+*.egg-info/
+
+# Env
+.env
+
+# Runtime data - user-uploaded files are always saved with a "u{id}_"
+# prefix (see app/core/ownership.py), so ignore only those. The sample
+# datasets shipped in uploads/ (Iris.csv, powerplant_data.csv, etc.) are
+# fixtures used by the test suite and stay tracked.
+uploads/u*_*
+saved_models/*
+!saved_models/.gitkeep
+*.db
+
+# Tests
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store

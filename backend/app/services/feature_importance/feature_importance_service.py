@@ -22,10 +22,6 @@ def get_feature_importance(
         top_n=top_n
     )
 
-    print("="*50)
-    print(feature_importance)
-    print(type(feature_importance))
-
     return {
         "dataset": dataset_name,
         "model": model_name,

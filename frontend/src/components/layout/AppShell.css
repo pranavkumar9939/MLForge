@@ -1,0 +1,75 @@
+.nav {
+  height: var(--nav-height);
+  background: var(--surface-inverse);
+  border-bottom: 1px solid var(--border-inverse);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.nav-inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.brand-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  background: var(--surface-inverse-2);
+  border: 1px solid var(--border-inverse);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.brand-name {
+  color: var(--text-on-inverse);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+}
+.brand-name span { color: var(--ember); }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.nav-link {
+  color: var(--text-on-inverse-dim);
+  font-size: 13.5px;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  transition: color 0.12s ease, background 0.12s ease;
+}
+.nav-link:hover { color: var(--text-on-inverse); background: rgba(255,255,255,0.06); }
+.nav-link.active { color: var(--text-on-inverse); background: rgba(255,255,255,0.09); }
+
+.nav-cta {
+  height: 34px;
+  padding: 0 14px;
+  border-radius: var(--radius-md);
+  background: var(--ember);
+  color: #fff;
+  font-size: 13.5px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+.nav-cta:hover { background: var(--ember-strong); }
+
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 22px 0;
+  color: var(--text-tertiary);
+  font-size: 12.5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

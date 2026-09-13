@@ -14,7 +14,7 @@ def generate_confusion_matrix(
     if not hasattr(model, "predict"):
         return None
 
-    if not hasattr(model, "classes_"):
+    if not hasattr(model, "classes_") or len(model.classes_) == 0:
         return None
 
     y_pred = model.predict(X_test)

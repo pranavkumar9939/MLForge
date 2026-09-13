@@ -203,11 +203,6 @@ def evaluate_linear_regression(training_result):
         predictions
     )
 
-    print("MAE : ",mae)
-    print("MSE : ",mse)
-    print("RMSE : ",rmse)
-    print("R2 : ",r2)
-
     r2_info = interpret_r2_score(r2)
 
     evaluation_result = {

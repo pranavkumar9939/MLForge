@@ -77,10 +77,7 @@ def analyze_columns(df):
     """
 
     analysis = {}
-    #print(df.columns.tolist())
     quality = analyze_quality(df)
-    #print(quality.keys())
-
     for column in df.columns:
 
         series = df[column]
@@ -92,7 +89,6 @@ def analyze_columns(df):
             **quality[column]
         }
 
-        print(column, column_info["is_identifier"])
 
         column_info["recommendations"] = generate_recommendations(column_info)
 

@@ -34,10 +34,10 @@ def generate_feature_importance(
             importance = coefficients
 
     else:
-        return {
-            "supported": False,
-            "feature_importance": []
-        }
+        # No usable importance source on this model (e.g. KNN, SVM, Naive
+        # Bayes) - return an empty list rather than a differently-shaped
+        # dict, so every caller can rely on a consistent list return type.
+        return []
 
     feature_importance = [
         {

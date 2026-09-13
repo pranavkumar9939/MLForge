@@ -1,0 +1,65 @@
+.training-wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding-top: 20px;
+}
+.training-head { text-align: center; margin-bottom: 28px; }
+.training-head h1 { font-size: 24px; }
+.training-head p { margin-top: 8px; color: var(--text-secondary); font-size: 14px; }
+
+.training-card { padding: 28px; }
+
+.progress-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.progress-pct {
+  font-family: var(--font-mono);
+  font-size: 26px;
+  font-weight: 600;
+}
+.progress-stage {
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  margin-top: 14px;
+  min-height: 18px;
+}
+
+.stage-log {
+  margin-top: 26px;
+  border-top: 1px solid var(--border);
+  padding-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  max-height: 260px;
+  overflow-y: auto;
+}
+.stage-log-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-family: var(--font-mono);
+  color: var(--text-tertiary);
+}
+.stage-log-row.latest { color: var(--text-primary); }
+.stage-log-row .tick {
+  width: 14px; height: 14px; flex-shrink: 0; color: var(--success);
+}
+
+.training-error {
+  margin-top: 20px;
+  padding: 16px 18px;
+  border-radius: var(--radius-md);
+  background: var(--danger-wash);
+  color: var(--danger);
+  font-size: 13.5px;
+}
+
+.training-success {
+  text-align: center;
+  padding: 12px 0 4px;
+}

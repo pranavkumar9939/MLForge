@@ -1,37 +1,104 @@
-// import { BrowserRouter, Routes, Route  } from "react-router-dom";
 
-// function Dashboard(){
-//   return (
-//     <div style={{ padding: "40px" }}>
-//       <h1>🚀 MLForge Dashboard</h1>
-//       <p>Your Ml platform is running successfully.</p>
-//     </div>
-//   );
-// }
+import { Routes, Route, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
-// function App() {
-//   return (
-//     <BrowserRouter>
-//       <Routes>
-//         <Route path="/" element={<Dashboard />} />
-//       </Routes>
-//     </BrowserRouter>
-//   );
-// }
-
-// export default App;
-
-
-import PerformanceDashboard from "./components/analytics/PerformanceDashboard";
+import AppShell from "./components/layout/AppShell";
+import RequireAuth from "./components/layout/RequireAuth";
+import Landing from "./pages/Landing";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import Dashboard from "./pages/Dashboard";
+import Upload from "./pages/Upload";
+import Training from "./pages/Training";
+import Results from "./pages/Results";
+import ClusteringResults from "./pages/ClusteringResults";
+import DimensionalityReductionResults from "./pages/DimensionalityReductionResults";
+import Predict from "./pages/Predict";
+import NotFound from "./pages/NotFound";
+import { trackPageview } from "./pages/Analytics";
 
 function App() {
-    return (
-        <div>
+  const location = useLocation();
 
-            <PerformanceDashboard />
+  useEffect(() => {
+    trackPageview(location.pathname);
+  }, [location.pathname]);
 
-        </div>
-    );
+  return (
+    <AppShell>
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+
+        <Route
+          path="/dashboard"
+          element={
+            <RequireAuth>
+              <Dashboard />
+            </RequireAuth>
+          }
+        />
+
+        <Route
+          path="/upload"
+          element={
+            <RequireAuth>
+              <Upload />
+            </RequireAuth>
+          }
+        />
+
+        <Route
+          path="/training/:jobId"
+          element={
+            <RequireAuth>
+              <Training />
+            </RequireAuth>
+          }
+        />
+
+        <Route
+          path="/results/:datasetName"
+          element={
+            <RequireAuth>
+              <Results />
+            </RequireAuth>
+          }
+        />
+
+        <Route
+          path="/clustering/:datasetName"
+          element={
+            <RequireAuth>
+              <ClusteringResults />
+            </RequireAuth>
+          }
+        />
+
+        <Route
+          path="/dimensionality-reduction/:datasetName"
+          element={
+            <RequireAuth>
+              <DimensionalityReductionResults />
+            </RequireAuth>
+          }
+        />
+
+        <Route
+          path="/predict/:datasetName/:modelName"
+          element={
+            <RequireAuth>
+              <Predict />
+            </RequireAuth>
+          }
+        />
+
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </AppShell>
+  );
 }
 
 export default App;
+

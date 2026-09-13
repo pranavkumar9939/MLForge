@@ -1,6 +1,11 @@
+import logging
+
 from app.services.prediction.predictor import predict
 from app.services.explainability.prediction_explainer import explain_prediction
 from app.services.explainability.shap_explainer import generate_shap_explanation
+
+logger = logging.getLogger("mlforge.prediction")
+
 
 def predict_single_sample(
         model,
@@ -44,7 +49,7 @@ def predict_single_sample(
 
         except Exception as e:
 
-            print(f"SHAP not supported for {type(model).__name__}: {e}")
+            logger.info("SHAP not supported for %s: %s", type(model).__name__, e)
 
             shap_explanation = None
 

@@ -39,13 +39,6 @@ def analyze_quality(df):
             )
         )
 
-        print(
-            column,
-            "| unique =", unique,
-            "| rows =", len(df),
-            "| identifier =", is_identifier
-        )
-
         quality[column] = {
             "missing": int(series.isnull().sum()),
             "Missing_percentage": round(series.isnull().mean() * 100, 2),
@@ -53,9 +46,6 @@ def analyze_quality(df):
             "is_constant": unique <= 1,
             "is_identifier":is_identifier
         }
-
-    for col, info in quality.items():
-        print(col, info["unique"], info["is_identifier"])
 
     return quality
 

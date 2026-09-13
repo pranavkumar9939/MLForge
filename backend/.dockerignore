@@ -1,0 +1,12 @@
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+tests/
+uploads/
+saved_models/
+*.db
+.env
+.git
+.gitignore
+*.md

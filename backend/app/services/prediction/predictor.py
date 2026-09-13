@@ -1,3 +1,4 @@
+import numpy as np
 from app.services.explainability.prediction_explainer import explain_prediction
 from app.services.explainability.probability import get_prediction_probabilities
 from app.services.explainability.feature_importance import generate_feature_importance
@@ -14,7 +15,7 @@ def predict(
     Predict on a single sample using a trained model.
     """
 
-    prediction = model.predict(input_data)[0]
+    prediction = np.asarray(model.predict(input_data)).reshape(-1)[0]
 
     if hasattr(model, "predict_proba"):
 
