@@ -1,5 +1,0 @@
-{
-    "model_name": "Logistic Regression",
-    "problem_type": "Multi-Class Classification",
-    "target_column": "Class"
-}

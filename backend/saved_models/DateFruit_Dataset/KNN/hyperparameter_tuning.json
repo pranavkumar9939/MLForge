@@ -1,8 +1,0 @@
-{
-    "tuned": true,
-    "best_params": {
-        "weights": "uniform",
-        "n_neighbors": 3
-    },
-    "best_cv_score": 0.8816132031613203
-}
