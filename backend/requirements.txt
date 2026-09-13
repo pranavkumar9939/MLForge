@@ -33,3 +33,9 @@ typing-inspection==0.4.2
 typing_extensions==4.16.0
 tzdata==2026.2
 uvicorn==0.51.0
+
+xgboost==3.4.1
+lightgbm==4.7.0
+catboost==1.2.10
+graphviz==0.21
+plotly==7.0.0
