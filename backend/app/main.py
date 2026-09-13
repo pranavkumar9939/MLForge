@@ -77,7 +77,6 @@ from app.api.export import router as export_router
 from app.api.batch_predict import router as batch_predict_router
 from app.api.unsupervised import router as unsupervised_router
 from app.api.report import router as report_router
-from app.api.analytics import router as analytics_router
 from app.api.auth import router as auth_router
 
 
@@ -100,5 +99,4 @@ app.include_router(export_router)
 app.include_router(batch_predict_router)
 app.include_router(unsupervised_router)
 app.include_router(report_router)
-app.include_router(analytics_router)
 app.include_router(auth_router)

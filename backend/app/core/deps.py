@@ -2,7 +2,6 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 
-from app.core.config import settings
 from app.core.security import decode_access_token
 from app.database.database import get_db
 from app.database.models import User
@@ -41,17 +40,3 @@ def get_current_user(
         )
 
     return user
-
-
-def require_admin(current_user: User = Depends(get_current_user)) -> User:
-    """
-    Gate an endpoint to the single account configured as ADMIN_EMAIL.
-    MLForge has no broader role system yet - this exists specifically for
-    the analytics dashboard, which shouldn't be visible to every user.
-    """
-    if not settings.ADMIN_EMAIL or current_user.email != settings.ADMIN_EMAIL:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="You don't have access to this.",
-        )
-    return current_user

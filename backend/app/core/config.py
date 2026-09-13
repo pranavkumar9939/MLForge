@@ -68,11 +68,6 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7  # 7 days
     JWT_ALGORITHM: str = "HS256"
 
-    # The account allowed to view the analytics dashboard. MLForge has no
-    # general role system yet, so this is a single-admin escape hatch -
-    # set it to your own account's email via the ADMIN_EMAIL env var.
-    ADMIN_EMAIL: str = ""
-
     def ensure_directories(self) -> None:
         self.UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
         self.SAVED_MODELS_DIR.mkdir(parents=True, exist_ok=True)
