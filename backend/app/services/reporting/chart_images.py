@@ -58,22 +58,149 @@ def confusion_matrix_chart(confusion_matrix: dict) -> bytes:
     return _fig_to_png_bytes(fig)
 
 
-def roc_curve_chart(roc_curve: dict) -> bytes:
-    curves = roc_curve["curves"]
+def roc_curve_chart(roc_curve: dict) -> bytes | None:
+    """
+    Render ROC curve data safely.
 
+    Supported formats:
+
+    1. Multi-class / multi-curve:
+       {
+           "curves": [
+               {
+                   "fpr": [...],
+                   "tpr": [...],
+                   "class": "...",
+                   "auc": 0.95
+               }
+           ]
+       }
+
+    2. Single binary curve:
+       {
+           "fpr": [...],
+           "tpr": [...],
+           "auc": 0.95
+       }
+
+    3. Single binary curve with a label:
+       {
+           "fpr": [...],
+           "tpr": [...],
+           "auc": 0.95,
+           "class": "ROC"
+       }
+
+    If no valid ROC data exists, return None instead of crashing
+    the complete report.
+    """
+
+    if not roc_curve or not isinstance(roc_curve, dict):
+        return None
+
+    # ---------------------------------------------------------
+    # Normalize ROC data into a list of curves
+    # ---------------------------------------------------------
+    curves = roc_curve.get("curves")
+
+    # Multi-curve format
+    if curves is not None:
+        if not isinstance(curves, list):
+            return None
+        normalized_curves = curves
+
+    # Single-curve format
+    elif "fpr" in roc_curve and "tpr" in roc_curve:
+        normalized_curves = [roc_curve]
+
+    else:
+        return None
+
+    # ---------------------------------------------------------
+    # Create figure
+    # ---------------------------------------------------------
     fig, ax = plt.subplots(figsize=(5, 4))
-    for i, curve in enumerate(curves):
-        ax.plot(
-            curve["fpr"], curve["tpr"],
-            color=SERIES[i % len(SERIES)], linewidth=1.8,
-            label=f"{curve['class']} (AUC {curve['auc']:.3f})",
+
+    plotted = 0
+
+    for i, curve in enumerate(normalized_curves):
+        if not isinstance(curve, dict):
+            continue
+
+        fpr = curve.get("fpr")
+        tpr = curve.get("tpr")
+
+        if not fpr or not tpr:
+            continue
+
+        auc_value = curve.get("auc")
+
+        label = curve.get(
+            "class",
+            curve.get("label", "ROC")
         )
-    ax.plot([0, 1], [0, 1], linestyle="--", color="#d3cfc2", linewidth=1)
-    ax.set_xlabel("False Positive Rate", fontsize=9, color=GRAPHITE)
-    ax.set_ylabel("True Positive Rate", fontsize=9, color=GRAPHITE)
-    ax.tick_params(colors=GRAPHITE, labelsize=8)
-    ax.legend(fontsize=7.5, loc="lower right")
+
+        if auc_value is not None:
+            try:
+                label = f"{label} (AUC {float(auc_value):.3f})"
+            except (TypeError, ValueError):
+                pass
+
+        ax.plot(
+            fpr,
+            tpr,
+            color=SERIES[i % len(SERIES)],
+            linewidth=1.8,
+            label=label,
+        )
+
+        plotted += 1
+
+    # No usable curves
+    if plotted == 0:
+        plt.close(fig)
+        return None
+
+    # ---------------------------------------------------------
+    # Random-classifier reference line
+    # ---------------------------------------------------------
+    ax.plot(
+        [0, 1],
+        [0, 1],
+        linestyle="--",
+        color="#d3cfc2",
+        linewidth=1,
+        label="Random classifier",
+    )
+
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+
+    ax.set_xlabel(
+        "False Positive Rate",
+        fontsize=9,
+        color=GRAPHITE,
+    )
+
+    ax.set_ylabel(
+        "True Positive Rate",
+        fontsize=9,
+        color=GRAPHITE,
+    )
+
+    ax.tick_params(
+        colors=GRAPHITE,
+        labelsize=8,
+    )
+
+    ax.legend(
+        fontsize=7.5,
+        loc="lower right",
+    )
+
     for spine in ("top", "right"):
         ax.spines[spine].set_visible(False)
+
     fig.tight_layout()
+
     return _fig_to_png_bytes(fig)

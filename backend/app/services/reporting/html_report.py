@@ -71,8 +71,15 @@ def render_html_report(data: dict) -> str:
         cm_img = _img_tag(confusion_matrix_chart(data["confusion_matrix"]), "Confusion matrix")
         extra_charts += f'<div class="chart-block"><h3>Confusion Matrix</h3>{cm_img}</div>'
     if not data["is_regression"] and data["roc_curve"]:
-        roc_img = _img_tag(roc_curve_chart(data["roc_curve"]), "ROC curve")
-        extra_charts += f'<div class="chart-block"><h3>ROC Curve</h3>{roc_img}</div>'
+        roc_bytes = roc_curve_chart(data["roc_curve"])
+
+        if roc_bytes:
+            roc_img = _img_tag(roc_bytes, "ROC curve")
+            extra_charts += (
+                f'<div class="chart-block">'
+                f'<h3>ROC Curve</h3>{roc_img}'
+                f'</div>'
+            )
 
     tuning_html = ""
     if data["tuning"] and data["tuning"].get("tuned"):

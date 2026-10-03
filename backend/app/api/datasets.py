@@ -1,14 +1,13 @@
 from fastapi import APIRouter, Depends
-from pathlib import Path
 
 from app.core.deps import get_current_user
 from app.core.ownership import owner_prefix
+from app.core.config import settings
 from app.database.models import User
 
 router = APIRouter(prefix="/datasets", tags=["Datasets"])
 
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
-SAVED_MODELS = BASE_DIR / "saved_models"
+SAVED_MODELS = settings.SAVED_MODELS_DIR
 
 
 @router.get("/")

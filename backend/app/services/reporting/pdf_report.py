@@ -149,9 +149,16 @@ def render_pdf_report(data: dict) -> bytes:
         story.append(_image_flowable(confusion_matrix_chart(data["confusion_matrix"]), max_width_mm=110))
 
     if not data["is_regression"] and data["roc_curve"]:
-        story.append(Paragraph("ROC Curve", styles["MFH2"]))
-        story.append(_image_flowable(roc_curve_chart(data["roc_curve"]), max_width_mm=120))
+        roc_bytes = roc_curve_chart(data["roc_curve"])
 
+        if roc_bytes:
+            story.append(Paragraph("ROC Curve", styles["MFH2"]))
+            story.append(
+                _image_flowable(
+                    roc_bytes,
+                    max_width_mm=120,
+                )
+            )
     if data["tuning"] and data["tuning"].get("tuned"):
         story.append(Paragraph("Hyperparameter Tuning", styles["MFH2"]))
         cv_score = data["tuning"].get("best_cv_score")

@@ -1,3 +1,4 @@
+from sklearn.base import clone
 import pandas as pd
 from scipy import sparse
 from sklearn.preprocessing import LabelEncoder
@@ -115,26 +116,28 @@ def preprocess_dataset(df: pd.DataFrame, analysis: dict) -> dict:
     else:
         y = y_raw
 
-    X_processed = pipeline.fit_transform(X)
+    # NOTE: the real pipeline is deliberately NOT fitted here. It is fitted in
+    # the trainer on the training split only. The clone below is a throw-away
+    # fit on all rows, used only to give the UI a preview of the processed
+    # table and feature count. It is never used for training or evaluation.
+    preview_pipeline = clone(pipeline)
+    X_preview = preview_pipeline.fit_transform(X)
+    preview_feature_names = preview_pipeline.get_feature_names_out()
 
-    if sparse.issparse(X_processed):
+    if sparse.issparse(X_preview):
         processed_df = pd.DataFrame.sparse.from_spmatrix(
-            X_processed,
-            columns=pipeline.get_feature_names_out(),
+            X_preview, columns=preview_feature_names,
         )
     else:
-        processed_df = pd.DataFrame(
-            X_processed,
-            columns=pipeline.get_feature_names_out(),
-        )
+        processed_df = pd.DataFrame(X_preview, columns=preview_feature_names)
 
     return {
-        "X": X_processed,
+        "X": X,                          # RAW features (DataFrame), not transformed
         "y": y,
-        "pipeline": pipeline,
+        "pipeline": pipeline,            # UNFITTED, the trainer fits it
         "label_encoder": label_encoder,
-        "feature_names": pipeline.get_feature_names_out(),
-        "preprocessed_dataframe": processed_df,
+        "feature_names": preview_feature_names,   # preview only, trainer returns the real ones
+        "preprocessed_dataframe": processed_df,   # preview only
         "summary": {
             "target_column": target_column,
             "numerical_columns": numerical_columns,
@@ -144,6 +147,6 @@ def preprocess_dataset(df: pd.DataFrame, analysis: dict) -> dict:
             "dropped_columns": dropped_columns,
             "rows_dropped_missing_target": rows_dropped_missing_target,
             "input_features": len(numerical_columns) + len(categorical_columns),
-            "output_features": X_processed.shape[1],
+            "output_features": X_preview.shape[1],
         },
     }

@@ -20,6 +20,8 @@ logger = logging.getLogger("mlforge.trainer")
 DEFAULT_TEST_SIZE = 0.2
 DEFAULT_RANDOM_STATE = 42
 
+import pandas as pd
+
 
 def train_model(
     X,
@@ -38,6 +40,11 @@ def train_model(
     each model starts training so callers (e.g. an async job) can surface
     real, backend-driven progress instead of a decorative spinner.
     """
+    if not isinstance(X, pd.DataFrame):
+        raise TypeError(
+            f"train_model expects the RAW feature DataFrame, got {type(X).__name__}. "
+            "Check that preprocess_dataset returns the untransformed X."
+        )
 
     def report(stage, current, total):
         if on_progress:
@@ -56,7 +63,10 @@ def train_model(
     is_classification = "Classification" in problem_type
     stratify = y if is_classification else None
 
-    X_train, X_test, y_train, y_test = train_test_split(
+        # Split the RAW features first, then fit preprocessing on the training
+    # rows only. The test rows never influence imputation, scaling or
+    # one-hot categories.
+    X_train_raw, X_test_raw, y_train, y_test = train_test_split(
         X,
         y,
         test_size=DEFAULT_TEST_SIZE,
@@ -64,7 +74,14 @@ def train_model(
         stratify=stratify
     )
 
-    n_train_rows = len(X_train)
+    if pipeline is None:
+        raise ValueError("A preprocessing pipeline is required for training")
+
+    X_train = pipeline.fit_transform(X_train_raw)   # fit on TRAIN only
+    X_test = pipeline.transform(X_test_raw)         # transform only
+    feature_names = pipeline.get_feature_names_out()
+
+    n_train_rows = X_train.shape[0]
 
     # Intelligent model selection: skip computationally expensive models
     # (SVM, KNN and other O(n^2)-ish estimators) once the dataset is large
@@ -105,10 +122,11 @@ def train_model(
         tuning_result = tune_model(
             model=model,
             model_name=model_name,
-            X_train=X_train,
+            X_train=X_train_raw,
             y_train=y_train,
             problem_type=problem_type,
             training_mode=training_mode,
+            preprocessor= pipeline
         )
 
         model = tuning_result["model"]
@@ -120,8 +138,9 @@ def train_model(
         # reported CV score.
         cv_result = perform_cross_validation(
             model,
-            X_train,
-            y_train
+            X_train_raw,            # raw training rows, not the transformed X_train
+            y_train,
+            preprocessor=pipeline,  # cloned inside, refitted per fold
         )
 
         predictions = model.predict(X_test)
